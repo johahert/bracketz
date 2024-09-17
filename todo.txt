@@ -1,0 +1,5 @@
+// Layout - gör klart component för icon / namn med tailwind
+
+// Index - fixa startsida - gör egen parallaxscrollview med en halvcircel, med en png av karaktär inuti, vid scroll så förstoras karatär (bg-färg byts??)
+
+// Skapa sida för att visa / skapa ny (tom) turnering- ge turnering unikt id
