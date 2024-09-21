@@ -1,6 +1,11 @@
+
+/*
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabaseSync('bracketz.db');
+
+
+const schemaCreation = ""
 
 export const createTable = async () => {
   try {
@@ -20,6 +25,12 @@ export const createTable = async () => {
   }
 };
 
+
+*/
+import * as SQLite from 'expo-sqlite';
+import { db } from './schema';
+
+
 export interface User {
     id: number;
     name: string;
@@ -27,7 +38,6 @@ export interface User {
 
 export const getUsers = async () => {
     try {
-
         const result: User[] = await db.getAllAsync('SELECT * FROM users');
         return result || [];
         
@@ -37,7 +47,7 @@ export const getUsers = async () => {
     }
 };
 
-export const addUser = async (name: string) => {
+export const insertUser = async (name: string) => {
     try {
       await db.runAsync('INSERT INTO users (name) VALUES (?)',[name]);
       

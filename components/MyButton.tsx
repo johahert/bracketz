@@ -35,7 +35,7 @@ export function MyButton({ text, onPress, variant = 'primary' }: MyButtonProps):
 
   return (
     <TouchableHighlight
-      className={`${getButtonStyle()} p-2 rounded-md`} // Apply button styles based on variant
+      className={`${getButtonStyle()} p-4 rounded-md`} // Apply button styles based on variant
       underlayColor="#ddd"
       onPress={onPress}
     >

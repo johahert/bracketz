@@ -1,88 +1,70 @@
-import { View, Text, Alert , ScrollView } from 'react-native'
+import { View, Text, Alert} from 'react-native'
 import { MyTextInput } from '@/components/MyTextInput'
 import { ContentContainer } from '@/components/ContentContainer'
+import { MyCollapsible } from '@/components/MyCollapsible'
 import { MyButton } from '@/components/MyButton'
 import { IconButton } from '@/components/IconButton'
 import React from 'react'
+import MyParallaxScrollView from '@/components/MyParallaxView'
 import { useEffect, useState } from 'react'
-import { getUsers, User, addUser, deleteUser } from '@/services/database'
+import { getUsers,  insertUser, deleteUser } from '@/services/userDB'
+import { getTournaments, insertTournament } from '@/services/tournamentDB'
+import { Tournament, User } from '@/models/tournament'
+import { insertRound } from '@/services/roundsDB'
+import { CreateUserForm } from '@/components/crudComponents/CreateUserForm'
+import { CreateTournamentForm } from '@/components/crudComponents/CreateTournamentForm'
+import { UserListUpdateDelete } from '@/components/crudComponents/UserListUpdateDelete'
+import { TournamentListView } from '@/components/crudComponents/TournamentListView'
 
+
+//TODO - Bryt ut userlist till egen komponent (Göra att samma fungerar med tournaments också?)
 
 const CreateTorunament = () => {
 
-    useEffect(() => {
-        fetchUsers();
-    }, [])
-    const fetchUsers = async () => {
+    //#region users handling
+    const [userList, setUserList] = useState<User[]>([]);
+    const handleGetUsers = async () => {
         const users = await getUsers();
         setUserList(users || []);
     }
-    
+    useEffect(() => {
+        handleGetTournaments();
+        console.log(tournamentList)
+    }, [])
 
-    //variabler
-    const [username, setUsername] = useState('');
-    const [userList, setUserList] = useState<User[]>([]);
+    const [tournamentList, setTournamentList] = useState<Tournament[]>([]);
 
-    const insertUser = async() => {
-        if(username.length < 3) return;
-        try{
-
-            await addUser(username);
-            setUsername('');
-            await fetchUsers();
-        }catch(error){
-            console.log('Error adding user', error);
-        }
+    const handleGetTournaments = async () => {
+        const promise = await getTournaments();
+        console.log(promise)
+        setTournamentList(promise || []);
     }
 
-    const handleDelete = async (id: number) => {
-        try {
-            await deleteUser(id);
-            await fetchUsers();
-          
-        } catch (error) {
-          console.log('Error adding user', error);
-          
-        }
-    };
-
-
   return (
-    <ScrollView className='flex-1 p-4  bg-teal-600'>
+    <MyParallaxScrollView headerBackgroundColor='bg-teal-300' icon='create-sharp'>
+        <View className='p-4 bg-teal-600'>
 
-        <ContentContainer classes='bg-teal-700'>
-        <Text className='text-2xl font-bold text-white pb-4'>Create New User</Text>
-          <MyTextInput placeholder={"Enter your username"} label='Username' value={username} onChangeText={setUsername} />
-            <MyButton 
-            text='Create User' 
-            onPress={() => insertUser()}
-             />
-        </ContentContainer>
+        <Text className='font-black text-4xl text-white p-4 uppercase'>Create</Text>
 
-        {userList.length > 0 && (
-            <ContentContainer classes='bg-teal-700'>
-                {userList.map((user, index) => (
-                    <ContentContainer key={index} classes='bg-teal-800'>
-                        <View className='flex flex-row justify-between'>
+        <MyCollapsible title='Create new user'>
+            <CreateUserForm handleGetUsers={handleGetUsers} />
+        </MyCollapsible>
 
-                        <Text key={index} className='text-white text-2xl font-bold'>{user.name}</Text>
-                        <View className='flex flex-row gap-x-9'>
-
-                        <IconButton icon={'pencil'} variant='primary' classes='mx-2'/>
-                        <IconButton icon={'remove'} variant='danger'onPress={() => Alert.alert('Delete User', `Are you sure you want to delete ${user.name}?`, 
-                            [
-                                {text: 'Yes', onPress: () => handleDelete(user.id)}, 
-                                {text: 'No'}
-                                ])} />
-                        </View>
-                        </View>
-                    </ContentContainer>
-                ))}
-            </ContentContainer>
-        )}
+        <MyCollapsible title='Create Tournament'>
+            <CreateTournamentForm handleGetUsers={handleGetTournaments} />
+        </MyCollapsible>
+        
+        <UserListUpdateDelete />
+        <TournamentListView />
 
 
-    </ScrollView>
+           
+
+
+        </View>
+
+
+    </MyParallaxScrollView>
   )
 }
 

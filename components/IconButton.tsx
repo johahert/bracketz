@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import type { IconProps } from '@expo/vector-icons/build/createIconSet';
 
 interface IconButtonProps {
-  icon: keyof typeof Ionicons.glyphMap; // This ensures only valid Ionicons names can be passed
+  icon: keyof typeof Ionicons.glyphMap;
   onPress?: () => void;
   variant?: 'primary' | 'danger' | 'success';
   classes?: string;
@@ -21,12 +21,12 @@ export function IconButton({ icon, onPress, variant = 'primary', classes}: IconB
       case 'success':
         return 'bg-green-500 active:bg-green-700';
       default:
-        return 'bg-blue-500 active:bg-blue-700'; // Default to primary
+        return 'bg-blue-500 active:bg-blue-700'; 
     }
   };
 
   const getTextStyle = () => {
-    return 'white'; // Always white, can be customized if needed
+    return 'white'; 
   };
 
   return (
