@@ -29,12 +29,8 @@ export const createTable = async () => {
 */
 import * as SQLite from 'expo-sqlite';
 import { db } from './schema';
+import { User } from '@/models/tournament';
 
-
-export interface User {
-    id: number;
-    name: string;
-}
 
 export const getUsers = async () => {
     try {
