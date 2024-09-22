@@ -25,6 +25,16 @@ export const getTournaments = async () => {
     }
 }
 
+export const getTournament = async (id: number) => {
+    try {
+        const result = await db.getFirstAsync('SELECT * FROM tournaments WHERE id = ?;', id);
+        return result;
+    } catch (error) {
+        console.log('Error getting tournament', error);
+        return null;
+    }
+}
+
 export const getTournamentUsers = async (tournamentId: number) => {
     try {
         const result: User[] = await db.getAllAsync(

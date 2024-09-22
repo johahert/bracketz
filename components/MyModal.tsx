@@ -22,9 +22,9 @@ export default function MyModal  ({title, isOpen, closeModal, children}: Prop) {
 >
     
 
-  <View className="p-4 bg-teal-200 my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
+  <View className="p-4 bg-teal-700 my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
     {/* Title */}
-    <Text className="text-lg font-bold my-4">{title}</Text>
+    <Text className="text-lg text-white  font-bold my-4">{title}</Text>
 
     {/* ScrollView to take remaining space */}
     <View style={{ flex: 1 }}>

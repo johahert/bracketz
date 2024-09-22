@@ -2,7 +2,7 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Tournament } from '@/models/tournament';
 import { getTournaments } from '@/services/tournamentDB';
-import { MyCollapsible } from '../MyCollapsible';
+import { Link } from 'expo-router';
 import { ContentContainer } from '../ContentContainer';
 
 
@@ -24,7 +24,7 @@ export const TournamentListView = () => {
   return (
     <>
     {tournamentList.length > 0 && (
-        <MyCollapsible title='Tournaments'>
+        
             <View className='pt-4'>
 
             {tournamentList.map((t, index) => (
@@ -36,12 +36,14 @@ export const TournamentListView = () => {
                             <Text className='text-white text-lg font-bold'>ID: {t.id}</Text>
                             
                         </View>
-                        
+                        <Link href={`/(tabs)/play/${t.id}`}>
+                            <Text className='text-white text-lg font-bold'>View</Text>
+                        </Link>
                     </View>
                 </ContentContainer>
             ))}
             </View>
-        </MyCollapsible>
+        
     )}
     </>
   )

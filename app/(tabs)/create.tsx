@@ -55,7 +55,11 @@ const CreateTorunament = () => {
         </MyCollapsible>
         
         <UserListUpdateDelete />
-        <TournamentListView />
+
+        <MyCollapsible title='Tournaments'>
+            <TournamentListView />
+
+        </MyCollapsible>
 
 
            

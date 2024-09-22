@@ -8,8 +8,11 @@ import { CollapsableContainer } from "@/components/CollapsibleContainer";
 import { MyCollapsible } from "@/components/MyCollapsible";
 import { TournamentListView } from "@/components/crudComponents/TournamentListView";
 import { CreateUserForm } from "@/components/crudComponents/CreateUserForm";
-import CreateTorunament from "./create";
+import CreateTorunament from "../create";
 import { CreateTournamentForm } from "@/components/crudComponents/CreateTournamentForm";
+import { MyButton } from "@/components/MyButton";
+import MyModal from "@/components/MyModal";
+import { UserListTournament } from "@/components/crudComponents/UserListTournament";
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -22,23 +25,26 @@ export default function Test() {
     const { width } = event.nativeEvent.layout;
     setParentWidth(width);
   }
- 
+  
 
 
+  const [modalOpen , setModalOpen] = useState(false);
   return (
 
 
-    
 
     <View className="bg-teal-600">
 
 
     <View className=" h-full mb-8 rounded-xl bg-teal-600 " onLayout={handleLayout}>        
-    <MyCollapseBox title="Tournaments">
-        <CreateUserForm  handleGetUsers={() => {}}/>
-        <CreateTournamentForm handleGetUsers={() => {}}/>
-    </MyCollapseBox>       
-        
+      <View className="p-4">
+        <Text className="text-white text-2xl mb-4 font-bold">Create Tournament</Text>
+        <CreateTournamentForm handleGetUsers={() => {}}/> 
+        <MyButton text="Add users" onPress={() => setModalOpen(true)}/>
+        <MyModal title="Add Users" isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
+          <UserListTournament />
+        </MyModal>
+      </View>
         
     </View>
     </View>

@@ -32,7 +32,17 @@ const TabsLayout = () => {
         tabBarIcon:({color, focused}) => (
           <NativeTabBarIcon name={focused? 'add-circle' : 'add-circle-outline'} color={color}  />
         ),
+        
         }} />
+      <Tabs.Screen name="play/index" options={{title : "Play",
+        tabBarIcon:({color, focused}) => (
+          <NativeTabBarIcon name={focused? 'play' : 'play-outline'} color={color}  />
+        ),
+        
+        }} />
+      
+        
+        
       
     </Tabs>
   )
