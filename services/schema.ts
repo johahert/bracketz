@@ -1,6 +1,14 @@
 import * as SQLite from 'expo-sqlite';
 
- export const db = SQLite.openDatabaseSync('bracketz.db');
+export const db = SQLite.openDatabaseSync('bracketz.db');
+
+const drop_tables = `DROP TABLE IF EXISTS tournaments;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS rounds;
+DROP TABLE IF EXISTS matches;
+DROP TABLE IF EXISTS tournament_participants;
+DROP TABLE IF EXISTS match_participants;`;
+
 
 const pragma_foreign_keys = 'PRAGMA foreign_keys = ON;';
 
@@ -8,7 +16,8 @@ const tournaments_table =
 `CREATE TABLE IF NOT EXISTS tournaments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        format INTEGER NOT NULL,
+        status INTEGER DEFAULT 0,
+        format INTEGER DEFAULT 0,
         UNIQUE(name)
       );`;
 
@@ -23,7 +32,6 @@ const rounds_table =
 `CREATE TABLE IF NOT EXISTS rounds (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         tournaments_id INTEGER NOT NULL,
-        name TEXT NOT NULL,
         round_number INTEGER NOT NULL,
         FOREIGN KEY (tournaments_id) REFERENCES tournaments(id) ON DELETE CASCADE
       );`;
@@ -85,6 +93,14 @@ export const createSchema = async () => {
     }
 };
 
+export const dropSchema = async () => {
+    try {
+        await db.execAsync(drop_tables);
+        console.log('Schema dropped successfully');
+    } catch (error) {
+        console.log('Error dropping schema', error);
+    }
+}
 
 
 

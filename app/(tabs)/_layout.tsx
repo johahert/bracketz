@@ -40,7 +40,12 @@ const TabsLayout = () => {
         ),
         
         }} />
-      
+      <Tabs.Screen name="play/[id]" options={{title : "Play", href: null,
+        tabBarIcon:({color, focused}) => (
+          <NativeTabBarIcon name={focused? 'add' : 'add-outline'} color={color}  />
+        ),
+        
+        }} />
         
         
       

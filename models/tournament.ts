@@ -1,16 +1,12 @@
-const enum RoundName{
-    QUALIFIERS = "Qualifiers",
-    GROUP_STAGE = "Group Stage",
-    ROUND_OF_16 = "Round of 16",
-    QUARTER_FINALS = "Quarter Finals",
-    SEMI_FINALS = "Semi Finals",
-    FINALS = "Finals"
+export const enum TournamentStatus{
+    PENDING = 0,
+    ACTIVE = 1,
+    COMPLETED = 2
 }
 
-const enum TournamentStatus{
-    PENDING = "Pending",
-    ACTIVE = "Active",
-    COMPLETED = "Completed"
+export const enum TournamentFormat{
+    KNOCKOUT = 0,
+    GROUP_STAGE = 1,
 }
 
 export interface User {
@@ -30,15 +26,33 @@ export interface Match{
 
 export interface Round{
     id: number;
-    roundName: RoundName;
-    matches: Match[];
+    number?: string;
+    matches?: Match[];
 }
 
 export interface Tournament{
     id: number;
     name: string;
-    format: number;
-    status?: TournamentStatus;
+    format: TournamentFormat;
+    status: TournamentStatus;
     competitors?: User[];
     rounds?: Round[];
+}
+
+export const getTournamentStatus = (status:TournamentStatus) : string  => {
+    switch(status){
+        case TournamentStatus.PENDING : return 'Pending'
+        case TournamentStatus.ACTIVE : return 'Active'
+        case TournamentStatus.COMPLETED : return 'Completed'
+        default : return ''
+    }
+}
+
+export const getTournamentFormat = (format:TournamentFormat) : string => {
+    switch(format){
+        case TournamentFormat.GROUP_STAGE : return 'Group Stage'
+        case TournamentFormat.KNOCKOUT : return 'Knockout'
+        default : return ''
+
+    }
 }

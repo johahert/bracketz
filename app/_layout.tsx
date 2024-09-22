@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert } from "react-native";
-import { createSchema } from "@/services/schema";
+import { createSchema, dropSchema } from "@/services/schema";
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
