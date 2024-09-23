@@ -7,7 +7,7 @@ import { UserListTournament } from '@/components/crudComponents/UserListTourname
 import MyModal from '@/components/MyModal';
 import { MyButton } from '@/components/MyButton';
 
-
+//TODO - fixa så users från modal visar checked correct på de som är tillagda
 
 export default function TournamentView () {
 
@@ -63,7 +63,8 @@ export default function TournamentView () {
           }
           <MyButton text='Add Users' onPress={() => setModalOpen(true)} />
           <MyModal isOpen={modalOpen} closeModal={closeModal} title='Users' >
-            <UserListTournament onUpdateCompetitors={handleUpdateCompetitors} />
+            <UserListTournament onUpdateCompetitors={handleUpdateCompetitors}
+            selectedCompetitors={tournament.competitors ? tournament.competitors : []} />
 
           </MyModal>
           

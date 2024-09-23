@@ -9,14 +9,19 @@ import { CheckButton } from '../CheckButton';
 
 interface ListProps{
     onUpdateCompetitors : (updatedUsers: User[]) => void;
+    selectedCompetitors : User[];
 }
 
 
-export const UserListTournament = ({onUpdateCompetitors}: ListProps) => {
+export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: ListProps) => {
 
     useEffect(() => {
         handleGetUsers();
     }, [])
+
+    useEffect(() => {
+        setAddedUsers(selectedCompetitors); // Sync the addedUsers with the selected competitors
+    }, [selectedCompetitors]);
 
     const handleGetUsers = async () => {
         await getUsers().then((users) => setUserList(users || []));
@@ -24,6 +29,7 @@ export const UserListTournament = ({onUpdateCompetitors}: ListProps) => {
     }
     const [userList, setUserList] = useState<User[]>([]);
     const [addedUsers, setAddedUsers] = useState<User[]>([]);
+
     const handleAddUser = (id: number) => {
         const user = userList.find((user) => user.id === id);
         if (user) {
