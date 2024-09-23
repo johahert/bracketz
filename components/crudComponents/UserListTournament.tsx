@@ -2,14 +2,17 @@ import { View, Text, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import { User } from '@/models/tournament'
-import { MyCollapsible } from '../MyCollapsible';
 import { ContentContainer } from '../ContentContainer';
-import { IconButton } from '../IconButton';
+
 import { deleteUser, getUsers } from '@/services/userDB';
 import { CheckButton } from '../CheckButton';
 
+interface ListProps{
+    onUpdateCompetitors : (updatedUsers: User[]) => void;
+}
 
-export const UserListTournament = () => {
+
+export const UserListTournament = ({onUpdateCompetitors}: ListProps) => {
 
     useEffect(() => {
         handleGetUsers();
@@ -17,18 +20,23 @@ export const UserListTournament = () => {
 
     const handleGetUsers = async () => {
         await getUsers().then((users) => setUserList(users || []));
+
     }
-    
     const [userList, setUserList] = useState<User[]>([]);
     const [addedUsers, setAddedUsers] = useState<User[]>([]);
     const handleAddUser = (id: number) => {
         const user = userList.find((user) => user.id === id);
         if (user) {
+            let updateAddedUsers;
             if (addedUsers.some((addedUser) => addedUser.id === id)) {
-            setAddedUsers(addedUsers.filter((addedUser) => addedUser.id !== id));
+            updateAddedUsers = addedUsers.filter((addedUser) => addedUser.id !== id);
             } else {
-            setAddedUsers([...addedUsers, user]);
+            updateAddedUsers = [...addedUsers, user];
             }
+
+            setAddedUsers(updateAddedUsers);
+            onUpdateCompetitors(updateAddedUsers);
+
         }
         console.log(addedUsers);
     }

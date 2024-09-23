@@ -45,7 +45,7 @@ export const UserListUpdateDelete = () => {
                         </View>
                         <View className='flex flex-row items-center justify-center'>
 
-                            <IconButton icon={'pencil'} variant='primary' classes='mx-2'/>
+                            
                             <IconButton icon={'remove'} variant='danger'onPress={() => Alert.alert('Delete User', `Are you sure you want to delete ${user.name}?`, 
                                 [
                                     {text: 'Yes', onPress: () => handleDeleteUser(user.id)}, 
