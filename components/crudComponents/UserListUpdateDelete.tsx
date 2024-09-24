@@ -7,35 +7,24 @@ import { ContentContainer } from '../ContentContainer';
 import { IconButton } from '../IconButton';
 import { deleteUser, getUsers } from '@/services/userDB';
 
+interface ListProps {
+    users: User[];
+    onDeleteUser? : (id: number) => void;
+}
 
-export const UserListUpdateDelete = () => {
 
-    useEffect(() => {
-        handleGetUsers();
-    }, [])
+export const UserListUpdateDelete = ({users, onDeleteUser}: ListProps) => {
 
-    const [userList, setUserList] = useState<User[]>([]);
-    const handleGetUsers = async () => {
-        const users = await getUsers();
-        setUserList(users || []);
-    }
-
-    const handleDeleteUser = async (id: number) => {
-        try {
-            await deleteUser(id);
-            await handleGetUsers();
-        } catch (error) {
-            console.log('Error adding user', error);
-        }
-    };
+    
+    
 
   return (
     <>
-    {userList.length > 0 && (
+    {users.length > 0 && (
         <MyCollapsible title='Users'>
             <View className='pt-4'>
 
-            {userList.map((user, index) => (
+            {users.map((user, index) => (
                 <ContentContainer key={index} classes='bg-teal-800'>
                     <View className='flex-row justify-between'>
                     
@@ -48,7 +37,7 @@ export const UserListUpdateDelete = () => {
                             
                             <IconButton icon={'remove'} variant='danger'onPress={() => Alert.alert('Delete User', `Are you sure you want to delete ${user.name}?`, 
                                 [
-                                    {text: 'Yes', onPress: () => handleDeleteUser(user.id)}, 
+                                    {text: 'Yes', onPress: () => onDeleteUser && onDeleteUser(user.id)}, 
                                     {text: 'No'}
                                 ])} />
                         </View>

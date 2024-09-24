@@ -3,6 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { getTournamentAllInfo, updateTournamentStatus } from "@/services/tournamentDB";
 import { insertTournamentUsers } from "@/services/tournament_usersDB";
+import { generateRounds } from "@/services/roundsDB";
 import {
   Tournament,
   User,
@@ -31,22 +32,28 @@ export default function TournamentView() {
     const initialTournament = await getTournamentAllInfo(id);
     setTournament(initialTournament);
   };
+
   const handleUpdateCompetitors = (updatedUsers: User[]) => {
     setTournament((prev) => {
       if (!prev) return null;
       return { ...prev, competitors: updatedUsers };
     });
   };
-  const closeModal = () => setModalOpen(false);
+  
 
   const handleStartTournament = async () => {
       if(tournament){
         await updateTournamentStatus(TournamentStatus.ACTIVE, tournament.id).then(() => console.log('status updated')).catch(() => console.log('status update failed'))
         if(!tournament.competitors) return;
         await insertTournamentUsers(tournament.competitors, tournament.id).then(() => console.log('users updated')).catch(() => console.log('users update failed'))
+        await getTournamentFromDB(parseInt(id as string));
       }
   }
 
+  const testFunc = () => {
+      if(!tournament?.competitors) return;
+      generateRounds(tournament.competitors, tournament.id)
+  }
 
   return (
     <ScrollView className="py-8 px-4 bg-teal-400">
@@ -93,7 +100,7 @@ export default function TournamentView() {
           
           <MyModal
             isOpen={modalOpen}
-            closeModal={(closeModal)}
+            closeModal={() => setModalOpen(false)}
             title="Users"
             >
             <UserListTournament
@@ -122,6 +129,8 @@ export default function TournamentView() {
                   No Competitors Yet...
                 </Text>
               )}
+              <MyButton text="test" onPress={testFunc}/>
+
         </View>
       ) : (
         <Text>OOPS! Tournament not found...</Text>

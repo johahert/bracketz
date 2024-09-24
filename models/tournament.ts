@@ -14,13 +14,14 @@ export interface User {
     name: string;
 }
 
+export interface Player{
+    user: User;
+    score: number;
+}
+
 export interface Match{
-    id: number;
     completed: boolean;
-    player1: User;
-    player2: User;
-    score1: number;
-    score2: number;
+    players: Player[];
     winner?: User;
 }
 

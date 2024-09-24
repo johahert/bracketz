@@ -7,27 +7,16 @@ import { ContentContainer } from '../ContentContainer';
 import { Ionicons } from '@expo/vector-icons';
 
 
+interface ListProps {
+    tournamentList: Tournament[];
+}
 
-
-export const TournamentListView = () => {
-    useEffect(() => {
-        handleGetTournaments();
-        console.log(tournamentList)
-    }, [])
+export const TournamentListView = ({tournamentList}: ListProps) => {
     
-    const [tournamentList, setTournamentList] = useState<Tournament[]>([]);
-    
-    const handleGetTournaments = async () => {
-        const promise = await getTournaments();
-        console.log(promise)
-        setTournamentList(promise || []);
-    }
-
    
-
   return (
     <>
-    {tournamentList.length > 0 && (
+    {tournamentList && tournamentList.length > 0 && (
         
             <View className='pt-4'>
 

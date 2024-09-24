@@ -30,6 +30,7 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
     const [userList, setUserList] = useState<User[]>([]);
     const [addedUsers, setAddedUsers] = useState<User[]>([]);
 
+    //uppdaterar värde i parent
     const handleAddUser = (id: number) => {
         const user = userList.find((user) => user.id === id);
         if (user) {
@@ -39,10 +40,9 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
             } else {
             updateAddedUsers = [...addedUsers, user];
             }
-
             setAddedUsers(updateAddedUsers);
+            //skickar list updateAddedUsers upp till parent via funktion som skickas med som parameter
             onUpdateCompetitors(updateAddedUsers);
-
         }
         console.log(addedUsers);
     }

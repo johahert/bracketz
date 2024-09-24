@@ -6,17 +6,19 @@ import { MyButton } from '../MyButton'
 import { insertUser } from '@/services/userDB'
 
 interface Props {
-    handleGetUsers:  () => void;
+    onGetUsers:  () => void;
 }
 
-export const CreateUserForm = ({handleGetUsers}: Props) => {
+export const CreateUserForm = ({onGetUsers}: Props) => {
     const [username, setUsername] = useState('');
     const handleInsertUser = async() => {
         if(username.length < 3) return;
         try{
+            
             await insertUser(username);
+            console.log('i ongetusers!!!')
             setUsername('');
-            handleGetUsers;
+            onGetUsers();
         }catch(error){
             console.log('Error adding user', error);
         }

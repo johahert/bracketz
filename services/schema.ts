@@ -48,6 +48,7 @@ const tournament_participants_table =
 `CREATE TABLE IF NOT EXISTS tournament_participants (
         tournaments_id INTEGER NOT NULL,
         users_id INTEGER NOT NULL,
+        status INTEGER DEFAULT 0,
         PRIMARY KEY (tournaments_id, users_id),
         FOREIGN KEY (tournaments_id) REFERENCES tournaments(id) ON DELETE CASCADE,
         FOREIGN KEY (users_id) REFERENCES users(id) ON DELETE CASCADE

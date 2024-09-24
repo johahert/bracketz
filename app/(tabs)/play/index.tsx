@@ -13,6 +13,8 @@ import { CreateTournamentForm } from "@/components/crudComponents/CreateTourname
 import { MyButton } from "@/components/MyButton";
 import MyModal from "@/components/MyModal";
 import { UserListTournament } from "@/components/crudComponents/UserListTournament";
+import { MyTextInput } from "@/components/MyTextInput";
+
 
 NativeWindStyleSheet.setOutput({
   default: "native",
@@ -26,9 +28,13 @@ export default function Test() {
     setParentWidth(width);
   }
   
+  const handleNum = () => {
 
-
-  const [modalOpen , setModalOpen] = useState(false);
+    const numvalue = parseInt(num);
+    //testRoundsNeeded(numvalue)
+  }
+ 
+  const [num , setNum] = useState("");
   return (
 
 
@@ -37,11 +43,12 @@ export default function Test() {
 
 
     <View className=" h-full mb-8 rounded-xl bg-teal-600 " onLayout={handleLayout}>        
-      <View className="p-4">
-        <Text className="text-white text-2xl mb-4 font-bold">Create Tournament</Text>
-        <CreateTournamentForm handleGetUsers={() => {}}/> 
-        
-      </View>
+      <MyTextInput
+      placeholder="Test"
+      label="test" onChangeText={setNum} value={num} isNumeric={true} >
+
+      </MyTextInput>
+      <MyButton text="asd" onPress={handleNum} /> 
         
     </View>
     </View>

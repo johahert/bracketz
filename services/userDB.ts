@@ -45,7 +45,7 @@ export const getUsers = async () => {
 
 export const insertUser = async (name: string) => {
     try {
-      await db.runAsync('INSERT INTO users (name) VALUES (?)',[name]);
+      await db.runAsync('INSERT INTO users (name) VALUES (?)',[name])
       
     } catch (error) {
       console.log('Error adding user', error);

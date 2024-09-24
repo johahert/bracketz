@@ -2,16 +2,14 @@ import { View, Text, Alert } from "react-native";
 import React, { useState } from "react";
 import { MyTextInput } from "../MyTextInput";
 import { MyButton } from "../MyButton";
-import { insertUser } from "@/services/userDB";
-import { Tournament } from "@/models/tournament";
 import { insertTournament } from "@/services/tournamentDB";
-import { insertRound } from "@/services/roundsDB";
+
 
 interface Props {
-  handleGetUsers?: () => void;
+  onGetTournaments: () => void;
 }
 
-export const CreateTournamentForm = ({ handleGetUsers }: Props) => {
+export const CreateTournamentForm = ({ onGetTournaments }: Props) => {
   const [tournamentName, setTournamentName] = useState("");
 
 
@@ -21,6 +19,8 @@ export const CreateTournamentForm = ({ handleGetUsers }: Props) => {
     await insertTournament(tournamentName)
     .then(() => Alert.alert("Tournament created!"))
     .catch((error) => Alert.alert("Error creating tournament", error)); 
+    setTournamentName('');
+    onGetTournaments();
   };
 
   
@@ -36,7 +36,7 @@ export const CreateTournamentForm = ({ handleGetUsers }: Props) => {
       />    
       <MyButton
         text="Create User"
-        onPress={() => handleInsertTournament()}
+        onPress={handleInsertTournament}
       />
     </View>
   );

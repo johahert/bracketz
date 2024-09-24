@@ -23,16 +23,29 @@ const CreateTorunament = () => {
 
     //#region users handling
     const [userList, setUserList] = useState<User[]>([]);
+    const [tournamentList, setTournamentList] = useState<Tournament[]>([]);
+    
     const handleGetUsers = async () => {
+        console.log('i handle get users!!!')
+        
         const users = await getUsers();
         setUserList(users || []);
     }
     useEffect(() => {
         handleGetTournaments();
+        handleGetUsers();
         console.log(tournamentList)
     }, [])
 
-    const [tournamentList, setTournamentList] = useState<Tournament[]>([]);
+    //TODO - hantera DELETE av användare som är aktiv i en turnering?
+    const handleDeleteUser = async (id :number) => {
+        Alert.alert('Delete tillfälligt avstängd');
+        return;
+        await deleteUser(id)
+        .then(() => console.log('user deleted'))
+        .catch(err => console.log('couldnt not delete' + err))
+    }
+
 
     const handleGetTournaments = async () => {
         const promise = await getTournaments();
@@ -46,28 +59,21 @@ const CreateTorunament = () => {
 
         <Text className='font-black text-4xl text-white p-4 uppercase'>Create</Text>
 
+        {/*Fixa så handlegetusers uppdaterar gränssnittet korrekt / kallar metoden*/ }
         <MyCollapsible title='Create new user'>
-            <CreateUserForm handleGetUsers={handleGetUsers} />
+            <CreateUserForm onGetUsers={handleGetUsers} />
         </MyCollapsible>
 
         <MyCollapsible title='Create Tournament'>
-            <CreateTournamentForm handleGetUsers={handleGetTournaments} />
+            <CreateTournamentForm onGetTournaments={handleGetTournaments} />
         </MyCollapsible>
-        
-        <UserListUpdateDelete />
+        {/*Gör delete user till optional, kan ta bort lokalts ( som en override )*/ }
+        <UserListUpdateDelete users={userList} onDeleteUser={handleDeleteUser} />
 
         <MyCollapsible title='Tournaments'>
-            <TournamentListView />
-
+            <TournamentListView tournamentList={tournamentList} />
         </MyCollapsible>
-
-
-           
-
-
         </View>
-
-
     </MyParallaxScrollView>
   )
 }

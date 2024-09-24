@@ -14,7 +14,7 @@ export function MyTextInput({placeholder, label, value, isNumeric, onChangeText}
     <View className="mb-4">
     <Text className='text-white text-lg '>{label}</Text>
       <TextInput 
-      inputMode={isNumeric ? 'numeric' : 'text'} maxLength={isNumeric ? 1 : 100}
+      inputMode={isNumeric ? 'numeric' : 'text'} maxLength={isNumeric ? 3 : 100}
       className="border-b-2 text-lg border-teal-300 w-full py-2 text-white"
         placeholder={placeholder}
         value={value}
