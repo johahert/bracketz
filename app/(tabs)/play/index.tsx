@@ -40,10 +40,7 @@ export default function Test() {
       <View className="p-4">
         <Text className="text-white text-2xl mb-4 font-bold">Create Tournament</Text>
         <CreateTournamentForm handleGetUsers={() => {}}/> 
-        <MyButton text="Add users" onPress={() => setModalOpen(true)}/>
-        <MyModal title="Add Users" isOpen={modalOpen} closeModal={() => setModalOpen(false)}>
-          <UserListTournament />
-        </MyModal>
+        
       </View>
         
     </View>

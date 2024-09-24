@@ -5,9 +5,10 @@ interface MyButtonProps {
   text: string;
   onPress: () => void;
   variant?: 'primary' | 'danger' | 'success'; // Optional variant prop with default options
+  disabled?: boolean;
 }
 
-export function MyButton({ text, onPress, variant = 'primary' }: MyButtonProps): React.JSX.Element {
+export function MyButton({ text, onPress, variant = 'primary', disabled }: MyButtonProps): React.JSX.Element {
   // Function to select the styles based on the variant
   const getButtonStyle = () => {
     switch (variant) {
@@ -34,7 +35,8 @@ export function MyButton({ text, onPress, variant = 'primary' }: MyButtonProps):
   };
 
   return (
-    <TouchableHighlight
+    <TouchableHighlight disabled={disabled} style={ { opacity : disabled ? .5 : 1 }}
+      
       className={`${getButtonStyle()} p-4 rounded-md`} // Apply button styles based on variant
       underlayColor="#ddd"
       onPress={onPress}

@@ -117,3 +117,16 @@ const produceTournament = (result: any[]):Tournament |null => {
 
     return tournament;
 }
+
+export const updateTournamentStatus = async (status: number, id: number) => {
+    try {
+        const query = 
+        `UPDATE tournaments
+        SET (status) = (?)
+        WHERE (id) = (?)`
+        await db.runAsync(query,[status, id])
+    } catch (error) {
+        throw error
+    }
+    
+}
