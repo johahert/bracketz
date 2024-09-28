@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import React, { useState, useEffect } from "react";
 import { getTournamentAllInfo, updateTournamentStatus } from "@/services/tournamentDB";
 import { insertTournamentUsers } from "@/services/tournament_usersDB";
-import { generateRounds } from "@/services/roundsDB";
+import { generateRounds, initializeTournament } from "@/services/roundsDB";
 import {
   Tournament,
   User,
@@ -16,6 +16,7 @@ import { UserListTournament } from "@/components/crudComponents/UserListTourname
 import MyModal from "@/components/MyModal";
 import { MyButton } from "@/components/MyButton";
 import { MyCollapsible } from "@/components/MyCollapsible";
+import { BracketView } from "@/components/BracketView";
 
 export default function TournamentView() {
   const { id } = useLocalSearchParams();
@@ -40,20 +41,15 @@ export default function TournamentView() {
     });
   };
   
+  
 
   const handleStartTournament = async () => {
       if(tournament){
-        await updateTournamentStatus(TournamentStatus.ACTIVE, tournament.id).then(() => console.log('status updated')).catch(() => console.log('status update failed'))
-        if(!tournament.competitors) return;
-        await insertTournamentUsers(tournament.competitors, tournament.id).then(() => console.log('users updated')).catch(() => console.log('users update failed'))
+        await initializeTournament(tournament);
         await getTournamentFromDB(parseInt(id as string));
       }
   }
 
-  const testFunc = () => {
-      if(!tournament?.competitors) return;
-      generateRounds(tournament.competitors, tournament.id)
-  }
 
   return (
     <ScrollView className="py-8 px-4 bg-teal-400">
@@ -129,7 +125,22 @@ export default function TournamentView() {
                   No Competitors Yet...
                 </Text>
               )}
-              <MyButton text="test" onPress={testFunc}/>
+              
+              {/** Bracket view */}
+
+              {tournament && tournament.status == TournamentStatus.ACTIVE && (
+                <View>
+                  <BracketView tournamentId={tournament.id} />
+
+
+
+                </View>
+              )}
+
+
+
+
+
 
         </View>
       ) : (

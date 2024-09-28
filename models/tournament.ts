@@ -15,20 +15,23 @@ export interface User {
 }
 
 export interface Player{
-    user: User;
+    id: any;
+    name: any;
     score: number;
 }
 
 export interface Match{
-    completed: boolean;
+    id?: number;
+    active: boolean;
     players: Player[];
     winner?: User;
 }
 
 export interface Round{
     id: number;
-    number?: string;
+    number: number;
     matches?: Match[];
+    finished: boolean;
 }
 
 export interface Tournament{

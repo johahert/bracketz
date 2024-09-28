@@ -1,6 +1,9 @@
 import { db } from './schema';
 
-import { User, Round, Match, Player, TournamentFormat } from '@/models/tournament';
+import { User, Round, Match, Player, TournamentFormat, Tournament, TournamentStatus } from '@/models/tournament';
+import { updateTournamentStatus } from './tournamentDB';
+import { insertTournamentUsers } from './tournament_usersDB';
+import { getUsersByStatus, ResetWinnerStatus } from './userDB';
 
 export const insertRound = async (tournamentsId: number, roundNumber: number) => {
     try {
@@ -30,14 +33,52 @@ export const getTournamentUsers = async (tournamentId: number) => {
     }
 };
 
+export const initializeTournament = async (tournament: Tournament) => {
+    //Guards för att att ej initiara turneringen flera gånger eller om spelare saknas
+    if(!tournament.competitors) return;
+    if(tournament.status !== TournamentStatus.PENDING) {
+        console.log('Tournament already started')
+        return;
+    }
+
+    //Sätter turneringen till aktiv
+    await updateTournamentStatus(TournamentStatus.ACTIVE, tournament.id)
+    .then(() => console.log('status updated'))
+    .catch(() => {
+        console.log('status update failed')
+        return;
+    })
+    //lägger till användare i kopplingstabellen
+    await insertTournamentUsers(tournament.competitors, tournament.id).then(() => console.log('users updated')).catch(() => {
+        console.log('users update failed')
+        return;
+    })
+    //genererar rundor, initiala matcher, byes och spelare
+    await generateRounds(tournament, 1)
+
+}
+
+
+
+
+
+
 // Params: Users and tournament id
 // Logic: Generate rounds depending on amount of users & randomize matchups 1v1 between users
 // Future : team matchups and different round formats
-export const generateRounds =  async (users: User[], tournamentId: number) => {
-    if (users.length < 4 || users.length > 16) return;
+export const generateRounds =  async (tournament: Tournament, roundNumber: number) => {
+    const tournamentId: number = tournament.id;
 
-    // Calculate the number of rounds needed
-    const roundsNeeded = Math.ceil(Math.log2(users.length));
+    let users: User[];
+    if(roundNumber === 1){
+        users = tournament.competitors || [];
+    } else {
+        users = await getUsersByStatus(1, tournamentId);
+        await ResetWinnerStatus(tournamentId)
+    }
+
+    if (users.length < 2 || users.length > 16) return;
+
     
     console.log(users)
     // Randomizes array of users
@@ -47,44 +88,45 @@ export const generateRounds =  async (users: User[], tournamentId: number) => {
     }
     console.log(users)
     
-    // Logic for matchups (1v1) - rework overflow of players plays an extra round
+    //#region only relevant for round 1 with uneven amount of players
+    // Logic for matchups (1v1) 
     let nextPowerOfTwo = Math.pow(2, Math.ceil(Math.log2(users.length))); //rundar upp till antal 4,8,16 etc
     let byes = nextPowerOfTwo - users.length; //hämtar antal som automatiskt ska gå vidare
 
     // Assign byes to the first few players, who will automatically advance
-    let matchups: Match[] = []
+    
     let advancedPlayers: User[] = [];
-
     // Give byes to the first few players advance to round 2
     for (let i = 0; i < byes; i++) {
         const user: User = users[i];
         advancedPlayers.push(user);
         console.log(`User ${users[i].name} advances to the next round (bye)`);
-        await insertByeParticipant(tournamentId, user )
+        await insertByeParticipant(tournamentId, user)
     }
+    //#endregion
+    
+    
+    const roundId = await insertRound(tournamentId, roundNumber)
+    let matchups: Match[] = []
+    
+    if(roundId){
 
-    for(let roundNumber = 1; roundNumber <= roundsNeeded; roundNumber++){
-        
-        const roundId = await insertRound(tournamentId, roundNumber)
-        
-        if(roundNumber === 1 && roundId){
-
-            //rest of players gets sent to round 1
-            for (let i = byes; i < users.length; i += 2) {
-                    if (i + 1 < users.length) {
-                        const p1: Player = { user: users[i], score: 0};
-                        const p2: Player = { user: users[i+1], score: 0};
-                        const newMatch:Match = {
-                            players: [p1, p2],
-                            completed: false
-                        }
-                        matchups.push(newMatch);
-        
-                        await insertMatch(roundId, newMatch);
-                }
+        //rest of players gets sent to round 1
+        for (let i = byes; i < users.length; i += 2) {
+                if (i + 1 < users.length) {
+                    const p1: Player = { name: users[i].name, id:users[i].id, score: 0};
+                    const p2: Player = { name: users[i+1].name, id:users[i+1].id, score: 0};
+                    const newMatch:Match = {
+                        players: [p1, p2],
+                        active: false
+                    }
+                    matchups.push(newMatch);
+    
+                    await insertMatch(roundId, newMatch);
             }
         }
     }
+    
 };
 
 // Insert match - return id and insert player1, player 2
@@ -108,11 +150,11 @@ export const insertMatch = async (roundId: number, match: Match) => {
 //Insert a player
 const insertMatchParticipant = async (matchId: number, player: Player) => {
     try {
-        const userId = player.user.id;
+        const userId = player.id;
         db.runAsync('INSERT INTO match_participants (matches_id, users_id) VALUES (?, ?)',[matchId, userId],)
-        console.log('user inserted : '+player.user.name)
+        console.log('user inserted : '+player.name)
     } catch (error) {
-        console.error('user failed : '+player.user.name)
+        console.error('user failed : '+player.name)
         console.error(error)
         throw error;
     }
@@ -130,4 +172,99 @@ const insertByeParticipant = async (tournamentId: number, user: User) => {
 }
 
 
-//TODO - städa upp och skapa vy för rounds!!!! :D
+//#region Getters
+export const getByeParticipants = async (tournamentId: number) => {
+    try {
+        const result: User[] = await db.getAllAsync(
+            `SELECT users.* 
+            FROM users 
+            JOIN tournament_participants 
+            ON users.id = tournament_participants.users_id 
+            WHERE tournament_participants.tournaments_id = ? AND tournament_participants.status = 1;`, [tournamentId]);
+        return result || [];
+        
+    } catch (error) {
+        console.log('Error getting users', error);
+        return [];
+    }
+}
+
+export const getRounds = async (tournamentId: number) => {
+    try {
+        const result: Round[] = await db.getAllAsync(
+            `SELECT 
+            id AS id,
+            round_number AS number
+            FROM rounds 
+            WHERE tournaments_id = ?;`, [tournamentId]);
+        return result || [];
+        
+    } catch (error) {
+        console.log('Error getting rounds', error);
+        return [];
+    }
+}
+
+export const getMatches = async (roundId: number) => {
+    try {
+        const result: Match[] = await db.getAllAsync(
+            `SELECT * 
+            FROM matches 
+            WHERE round_id = ?;`, [roundId]);
+        return result || [];
+        
+    } catch (error) {
+        console.log('Error getting matches', error);
+        return [];
+    }
+}
+
+const getPlayers = async (matchId: number) => {
+    try {
+        const result: Player[] = await db.getAllAsync(
+            `SELECT users.*, score
+            FROM users
+            JOIN match_participants
+            ON users.id = match_participants.users_id
+            WHERE matches_id = ?;`, [matchId]);
+
+        const players: Player[] = result.map(row => ({
+            id: row.id,
+            name: row.name,
+            user: {
+                id: row.id,
+                name: row.name
+            },
+            score: row.score
+        }));
+        
+        return result || [];
+        
+    } catch (error) {
+        console.log('Error getting players', error);
+        return [];
+    }   
+}
+
+
+// Get all rounds with corresponding matches with players
+export const getRoundsMatchesPlayers = async (tournamentId: number) => {
+    let rounds: Round[] = await getRounds(tournamentId);
+    rounds = rounds.sort((a, b) => a.number - b.number);
+    
+
+    // Loop over rounds using for...of to handle async/await correctly
+    for (const round of rounds) {
+        round.matches = await getMatches(round.id !== undefined ? round.id : 0);
+        console.log("matches:  "+round.matches)
+
+        // Loop over matches using for...of to handle async/await correctly
+        for (const match of round.matches) {
+            match.active = false;
+            match.players = await getPlayers(match.id !== undefined ? match.id : 0);
+            console.log("players:  "+match.players)
+        }
+    }
+    return rounds;
+};
+//#endregion
