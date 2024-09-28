@@ -4,6 +4,8 @@ export const enum TournamentStatus{
     COMPLETED = 2
 }
 
+
+
 export const enum TournamentFormat{
     KNOCKOUT = 0,
     GROUP_STAGE = 1,
@@ -31,7 +33,8 @@ export interface Round{
     id: number;
     number: number;
     matches?: Match[];
-    finished: boolean;
+    canFinish: boolean;
+    active: boolean;
 }
 
 export interface Tournament{

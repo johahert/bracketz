@@ -262,8 +262,14 @@ export const getRoundsMatchesPlayers = async (tournamentId: number) => {
         for (const match of round.matches) {
             match.active = false;
             match.players = await getPlayers(match.id !== undefined ? match.id : 0);
+            match.winner = match.players[0].score === match.players[1].score ? undefined :
+             match.players.reduce((prev, current) => (prev.score > current.score) ? prev : current);
             console.log("players:  "+match.players)
         }
+        round.canFinish = round.matches.every((match) => (!match.active && match.winner !== undefined))
+
+       
+        round.active = (rounds.length) === round.number ? true : false;
     }
     return rounds;
 };

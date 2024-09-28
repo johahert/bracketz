@@ -108,7 +108,7 @@ const produceTournament = (result: any[]):Tournament |null => {
 
         //add rounds if not already added
         if(row.round_id && !rounds.some(r => r.id === row.round_id))
-            rounds.push({ id: row.round_id, number: row.round_number, finished: false })
+            rounds.push({ id: row.round_id, number: row.round_number, canFinish: false, active: true })
 
     }) 
 

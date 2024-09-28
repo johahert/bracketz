@@ -82,7 +82,7 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
                     const updatedRound = { ...round, matches: newMatches };
                     return {
                         ...updatedRound,
-                        finished: checkRoundComplete(updatedRound),
+                        canFinish: checkRoundComplete(updatedRound),
                     };
                 }
                 return round
@@ -157,14 +157,17 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
                                     )
                                 })}
                                 <View className='flex-row justify-end py-1'>
+                                    {round.active &&(
+
                                     <IconButton icon="pencil" variant='success' onPress={() => handleSetMatchActive(match)} />
+                                    )}
 
                                 </View>
 
                             </View>
                         )
                     })}
-                    {round.number === rounds.length && round.finished && (
+                    {round.canFinish && round.matches && round.active &&(
                         <MyButton  text='Next Round' onPress={handleStartNextRound}/>
                     )}
                 </View>
