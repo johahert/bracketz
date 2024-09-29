@@ -13,13 +13,13 @@ export default function MyModal({ title, isOpen, closeModal, children }: Prop) {
   return (
     <Modal
       className="flex-1 justify-center items-center"
-      animationType="fade"
+      animationType="slide"
       transparent={true}
       visible={isOpen}
     >
-      <View className="p-4 bg-teal-700 my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
+      <View className="p-4 bg-neutral-100 shadow-black shadow-md my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
         {/* Title */}
-        <Text className="text-lg text-white  font-bold my-4">{title}</Text>
+        <Text className="text-lg text-neutral-950  font-bold my-4">{title}</Text>
 
         {/* ScrollView to take remaining space */}
         <View style={{ flex: 1 }}>

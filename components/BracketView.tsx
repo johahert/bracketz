@@ -1,23 +1,24 @@
-import { View, Text, TextInput } from 'react-native'
+import { View, Text, TextInput, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Match, Player, Round, User } from '@/models/tournament';
-import { getByeParticipants, getRounds, getMatches, getRoundsMatchesPlayers } from '@/services/roundsDB';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { Match, Player, Round, TournamentStatus, User } from '@/models/tournament';
+import { getByeParticipants, getRounds, getMatches, getRoundsMatchesPlayers, generateRounds } from '@/services/roundsDB';
+
 import { MyButton } from './MyButton';
 import { IconButton } from './IconButton';
 import { updateMatchScore } from '@/services/matchDB';
-import { getTournamentParticipants, getUsers, getUsersByStatus } from '@/services/userDB';
+import { useTournaments } from './TournamentContextProvider';
 
 interface BracketProps {
     tournamentId: number;
+    tournamentStatusProp: TournamentStatus;
+    finishTournament?: () => void;
 }
 
-export const BracketView = ({ tournamentId }: BracketProps) => {
+export const BracketView = ({ tournamentId , tournamentStatusProp, finishTournament }: BracketProps) => {
+    const { changeTournamentStatus } = useTournaments()
 
-    const [byeUsers, setByesUsers] = useState<User[]>([])
-    const [players, setPlayers] = useState<Player[]>([])
     const [rounds, setRounds] = useState<Round[]>([])
-    const [matches, setMatches] = useState<Match[]>([])
+    const [tournamentStatus, setTournamentStatus] = useState<TournamentStatus>(tournamentStatusProp)
 
     useEffect(() => {
         getBracketData()
@@ -33,19 +34,20 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
 
     const handleStartNextRound = async () => {
         console.log('Starting next round')
-
-        console.log("Tounramend id: "+tournamentId)
-        await getTournamentParticipants(tournamentId)
-        await getUsers();
-
         
-        const winners = await getUsersByStatus(1, tournamentId)
-        console.log('winners', winners)
-        return
-        const losers = await getUsersByStatus(2, tournamentId)
-        const rest = await getUsersByStatus(0, tournamentId)
-        console.log('losers', losers)
-        console.log('rest', rest)
+        //check if its the last round
+        const lastRound = rounds[rounds.length - 1]
+        if(lastRound.number !== 1 && lastRound.matches && lastRound.matches.length === 1){
+            console.log('last round')
+            //TODO - hantera vinnare av turneringen
+            Alert.alert(`Congratulations! ${lastRound.matches[0].winner?.name} has won the tournament!`)
+            await changeTournamentStatus(tournamentId, TournamentStatus.COMPLETED)
+            setTournamentStatus(TournamentStatus.COMPLETED)
+            return
+        }
+
+        generateRounds(tournamentId, (rounds.length + 1))
+        .then(() => getBracketData()).catch((err) => console.log(err))
 
     }
     //TODO hantera initiering av ny omgång - samla byes och vinnare av matcher till en array, slumpa dem och skapa nya matcher
@@ -96,6 +98,7 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
     }
     //sätter ny score för en spelare i en match - exempel score -1 eller +1 eller konkret nytt tal
     const handleScoreChange = (matchId: number, playerId: number, newScore: number) => {
+        if(newScore < 0 || newScore > 30) return;
         setRounds((prevRounds) => {
             return prevRounds.map(round => ({
                 ...round,
@@ -121,37 +124,55 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
         });
     };
 
+    const getRoundName = (round: Round):string => {
+        if(!round.matches) return 'Round not found'
+        if(round.number === 1) return 'First Round'
+        if(round.matches.length === 1) return 'Final'
+        if(round.matches.length === 2) return 'Semi Final'
+        if(round.matches.length === 4) return 'Quarter Final'
+        if(round.matches.length === 8) return 'Round of 16'
+        if(round.matches.length === 16) return 'Round of 32'
+        return 'Round not found'
+    }
+
     return (
-        <View className=''>
+        <View className='pb-16 pt-8'>
         {rounds && rounds.map((round, index) => {
             return (
-                <View key={round.id} className='py-4'>
-                    <Text className='text-white font-bold text-2xl'>Round {round.number}</Text>
+                <View key={round.id} className=''>
+                    <Text className='text-neutral-900 font-bold  text-2xl'>{getRoundName(round)}</Text>
                     {round.matches && round.matches.map((match, index) => {
                         return (
-                            <View className='bg-teal-500 rounded-md mb-2 p-2' key={match.id}>
-                                <View className='flex-row justify-between pb-2'>
-                                    <Text className='text-teal-100 text-lg font-semibold'>Match {index+1}</Text>
-                                    <Text className='text-teal-100 text-lg font-semibold'>{match.active ? "active" : "not active"}</Text>
+                            <View className={`py-8 ${
+                                (round.matches && round.matches.length-1 === index) ? '' : 'border-b border-neutral-300'
+                            }`} key={match.id}>
+                                <View className='flex-row justify-between pb-4'>
+                                    <Text className='text-neutral-700 text-lg font-semibold'>{getRoundName(round)} Game {index+1}</Text>
+                                    <Text className='text-neutral-700 text-lg font-semibold'>{match.active ? "Editing..." : ""}</Text>
                                 </View>
                                 {match.players && match.players.map((player) => {
                                     return (
-                                        <View className={`bg-teal-600 p-2 mb-2 rounded-sm items-center flex-row justify-between ${
-                                            player.id === match.winner?.id ? 'bg-teal-700  border-2 border-green-400' : 'bg-teal-600'
+                                        <View className={`bg-neutral-200 p-4 mb-2 rounded-md items-center flex-row justify-between ${
+                                            player.id === match.winner?.id ? 'bg-neutral-200  border-2 border-green-500' : 'bg-neutral-200'
                                         } $`} key={player.id}>
                                             
                                             
-                                            <Text className='font-semibold text-teal-200 '>{player.name}</Text>
+                                            <Text className={` text-neutral-700 ${player.id === match.winner?.id ? 'font-bold' : ''}`}>{player.name}</Text>
+                                           
+                                            <View className='flex-row items-center gap-4'>
+
                                             {match.active && (
-                                                <View className='flex-row'>
-                                                <IconButton icon="remove" variant='danger' onPress={() => handleScoreChange(match.id!, player.id!, player.score - 1)} />
-                                                <IconButton icon="add" variant='danger' onPress={() => handleScoreChange(match.id!, player.id!, player.score + 1)} />
+                                                <View className='flex-row  gap-4'>
+                                                <IconButton icon="remove" classes='mr-1' variant='danger' onPress={() => handleScoreChange(match.id!, player.id!, player.score - 1)} />
+                                                <IconButton icon="add" variant='primary' onPress={() => handleScoreChange(match.id!, player.id!, player.score + 1)} />
 
                                                 </View>
-                                           
-                                           
-                                        ) }
-                                            <Text className='font-semibold  text-lg text-teal-200'>{player.score}</Text>
+                                                
+                                            ) }
+                                            <Text className={`font-semibold text-neutral-700  ${player.id === match.winner?.id ? 'font-black' : ''}`}>{player.score}</Text>
+                                            
+                                            </View>
+                                            
                                             </View>
                                         
                                     )
@@ -159,7 +180,7 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
                                 <View className='flex-row justify-end py-1'>
                                     {round.active &&(
 
-                                    <IconButton icon="pencil" variant='success' onPress={() => handleSetMatchActive(match)} />
+                                    <IconButton icon="pencil" onPress={() => handleSetMatchActive(match)} />
                                     )}
 
                                 </View>
@@ -167,8 +188,11 @@ export const BracketView = ({ tournamentId }: BracketProps) => {
                             </View>
                         )
                     })}
-                    {round.canFinish && round.matches && round.active &&(
-                        <MyButton  text='Next Round' onPress={handleStartNextRound}/>
+                    {round.canFinish && round.matches && round.active && tournamentStatus === TournamentStatus.ACTIVE && (
+                        <MyButton  
+                        text={(round.matches && round.matches.length === 1 && round.number !== 1)
+                        ? 'Finish Tournament' : 'Start Next Round'
+                        } onPress={handleStartNextRound}/>
                     )}
                 </View>
             )   

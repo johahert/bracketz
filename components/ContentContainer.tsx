@@ -8,7 +8,7 @@ interface ContentContainerProps {
 
 export function ContentContainer({children, classes}: ContentContainerProps): React.JSX.Element {
   return (
-    <View className={`p-4 rounded-md mb-4 ${classes}`}>
+    <View className={` mb-4 ${classes}`}>
       {children}
     </View>
   );

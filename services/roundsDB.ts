@@ -3,7 +3,7 @@ import { db } from './schema';
 import { User, Round, Match, Player, TournamentFormat, Tournament, TournamentStatus } from '@/models/tournament';
 import { updateTournamentStatus } from './tournamentDB';
 import { insertTournamentUsers } from './tournament_usersDB';
-import { getUsersByStatus, ResetWinnerStatus } from './userDB';
+import { getTournamentParticipants, getUsersByStatus, ResetWinnerStatus } from './userDB';
 
 export const insertRound = async (tournamentsId: number, roundNumber: number) => {
     try {
@@ -54,7 +54,7 @@ export const initializeTournament = async (tournament: Tournament) => {
         return;
     })
     //genererar rundor, initiala matcher, byes och spelare
-    await generateRounds(tournament, 1)
+    await generateRounds(tournament.id, 1)
 
 }
 
@@ -66,12 +66,12 @@ export const initializeTournament = async (tournament: Tournament) => {
 // Params: Users and tournament id
 // Logic: Generate rounds depending on amount of users & randomize matchups 1v1 between users
 // Future : team matchups and different round formats
-export const generateRounds =  async (tournament: Tournament, roundNumber: number) => {
-    const tournamentId: number = tournament.id;
+export const generateRounds =  async (tournamentId: number, roundNumber: number) => {
+    
 
     let users: User[];
     if(roundNumber === 1){
-        users = tournament.competitors || [];
+        users = await getTournamentParticipants(tournamentId);
     } else {
         users = await getUsersByStatus(1, tournamentId);
         await ResetWinnerStatus(tournamentId)

@@ -5,6 +5,8 @@ import { useEffect } from 'react';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert } from "react-native";
 import { createSchema, dropSchema } from "@/services/schema";
+import { TournamentsProvider } from "@/components/TournamentContextProvider";
+import { UsersProvider } from "@/components/UserContextProvider";
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
@@ -32,11 +34,16 @@ export default function RootLayout() {
   
 
   return (
-    <SafeAreaView className="bg-teal-800 h-full">
+    <TournamentsProvider>
+      <UsersProvider>
 
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{headerShown: false}} />
-    </Stack>
-    </SafeAreaView>
+      <SafeAreaView className="bg-neutral-600 h-full">
+
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{headerShown: false}} />
+      </Stack>
+      </SafeAreaView>
+      </UsersProvider>
+    </TournamentsProvider>
   );
 }

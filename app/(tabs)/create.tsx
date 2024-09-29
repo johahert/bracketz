@@ -16,48 +16,38 @@ import { CreateTournamentForm } from '@/components/crudComponents/CreateTourname
 import { UserListUpdateDelete } from '@/components/crudComponents/UserListUpdateDelete'
 import { TournamentListView } from '@/components/crudComponents/TournamentListView'
 
-
 //TODO - Bryt ut userlist till egen komponent (Göra att samma fungerar med tournaments också?)
 
 const CreateTorunament = () => {
-
+    
     //#region users handling
-    const [userList, setUserList] = useState<User[]>([]);
-    const [tournamentList, setTournamentList] = useState<Tournament[]>([]);
+
     
     const handleGetUsers = async () => {
         console.log('i handle get users!!!')
         
-        const users = await getUsers();
-        setUserList(users || []);
+       
     }
     useEffect(() => {
         handleGetTournaments();
         handleGetUsers();
-        console.log(tournamentList)
+        
     }, [])
 
-    //TODO - hantera DELETE av användare som är aktiv i en turnering?
-    const handleDeleteUser = async (id :number) => {
-        Alert.alert('Delete tillfälligt avstängd');
-        return;
-        await deleteUser(id)
-        .then(() => console.log('user deleted'))
-        .catch(err => console.log('couldnt not delete' + err))
-    }
+   
 
 
     const handleGetTournaments = async () => {
-        const promise = await getTournaments();
-        console.log(promise)
-        setTournamentList(promise || []);
+        console.log('i handle get tournaments!!!')
+
+        
     }
 
   return (
-    <MyParallaxScrollView headerBackgroundColor='bg-teal-300' icon='create-sharp'>
-        <View className='p-4 bg-teal-600'>
+    <MyParallaxScrollView headerBackgroundColor='bg-violet-800' icon='create-sharp'>
+        <View className='px-4 bg-neutral-50'>
 
-        <Text className='font-black text-4xl text-white p-4 uppercase'>Create</Text>
+        <Text className='font-black text-4xl text-neutral-950  py-6 uppercase'>Create</Text>
 
         {/*Fixa så handlegetusers uppdaterar gränssnittet korrekt / kallar metoden*/ }
         <MyCollapsible title='Create new user'>
@@ -68,11 +58,7 @@ const CreateTorunament = () => {
             <CreateTournamentForm onGetTournaments={handleGetTournaments} />
         </MyCollapsible>
         {/*Gör delete user till optional, kan ta bort lokalts ( som en override )*/ }
-        <UserListUpdateDelete users={userList} onDeleteUser={handleDeleteUser} />
-
-        <MyCollapsible title='Tournaments'>
-            <TournamentListView tournamentList={tournamentList} />
-        </MyCollapsible>
+        
         </View>
     </MyParallaxScrollView>
   )

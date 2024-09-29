@@ -7,16 +7,22 @@ interface MyTextInputProps {
     onChangeText?: (text: string) => void; //Function to handle text change
     value?: string; //Value of input field
     isNumeric?: boolean; //If input field is numeric
+    isBigLabel?: boolean; //If label should be big
 }
 
-export function MyTextInput({placeholder, label, value, isNumeric, onChangeText}: MyTextInputProps): React.JSX.Element {
+export function MyTextInput({placeholder, label, value, isNumeric, onChangeText, isBigLabel}: MyTextInputProps): React.JSX.Element {
   return (
-    <View className="mb-4">
-    <Text className='text-white text-lg '>{label}</Text>
+    <View className="mb-4 w-100">
+    {isBigLabel ? 
+    <Text className='text-neutral-800 text-2xl font-bold'>{label}</Text> :
+    <Text className='text-neutral-800 text-lg font-semibold'>{label}</Text>
+    }
       <TextInput 
       inputMode={isNumeric ? 'numeric' : 'text'} maxLength={isNumeric ? 3 : 100}
-      className="border-b-2 text-lg border-teal-300 w-full py-2 text-white"
+      className="border-b-2 text-lg border-neutral-500  w-full py-2 text-neutral-700"
         placeholder={placeholder}
+        placeholderTextColor={'#a3a3a3'}
+        selectionColor={'#737373'}
         value={value}
         onChangeText={onChangeText}
       />

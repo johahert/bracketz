@@ -3,15 +3,15 @@ import React, { useState } from "react";
 import { MyTextInput } from "../MyTextInput";
 import { MyButton } from "../MyButton";
 import { insertTournament } from "@/services/tournamentDB";
-
+import { useTournaments } from "../TournamentContextProvider";
 
 interface Props {
   onGetTournaments: () => void;
 }
 
 export const CreateTournamentForm = ({ onGetTournaments }: Props) => {
+  const { fetchTournaments } = useTournaments();
   const [tournamentName, setTournamentName] = useState("");
-
 
   const handleInsertTournament = async () => {
     if (tournamentName.length < 3 || tournamentName == null) return;
@@ -20,7 +20,7 @@ export const CreateTournamentForm = ({ onGetTournaments }: Props) => {
     .then(() => Alert.alert("Tournament created!"))
     .catch((error) => Alert.alert("Error creating tournament", error)); 
     setTournamentName('');
-    onGetTournaments();
+    fetchTournaments();
   };
 
   
@@ -35,7 +35,7 @@ export const CreateTournamentForm = ({ onGetTournaments }: Props) => {
         onChangeText={setTournamentName}
       />    
       <MyButton
-        text="Create User"
+        text="Create Tournament"
         onPress={handleInsertTournament}
       />
     </View>

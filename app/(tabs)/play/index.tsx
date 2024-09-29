@@ -14,44 +14,38 @@ import { MyButton } from "@/components/MyButton";
 import MyModal from "@/components/MyModal";
 import { UserListTournament } from "@/components/crudComponents/UserListTournament";
 import { MyTextInput } from "@/components/MyTextInput";
+import { UserListUpdateDelete } from "@/components/crudComponents/UserListUpdateDelete";
+import { useUsers } from "@/components/UserContextProvider";
 
-
-NativeWindStyleSheet.setOutput({
-  default: "native",
-});
-export default function Test() {
-
+export default function UserView() {
   
+  const [search, setSearch] = useState('');
+  
+  const { users } = useUsers();
   const [parentWidth, setParentWidth] = useState(0);
   const handleLayout = (event: any) => {
     const { width } = event.nativeEvent.layout;
     setParentWidth(width);
   }
-  
-  const handleNum = () => {
 
-    const numvalue = parseInt(num);
-    //testRoundsNeeded(numvalue)
-  }
- 
-  const [num , setNum] = useState("");
+  const filteredUsers = users.filter(user => {
+    const text = search.toLowerCase().trim();
+    if(text === '') return true;
+    return user.name.toLowerCase().includes(text);
+  });
+
+
   return (
 
 
 
-    <View className="bg-teal-600">
-
-
-    <View className=" h-full mb-8 rounded-xl bg-teal-600 " onLayout={handleLayout}>        
-      <MyTextInput
-      placeholder="Test"
-      label="test" onChangeText={setNum} value={num} isNumeric={true} >
-
-      </MyTextInput>
-      <MyButton text="asd" onPress={handleNum} /> 
+    <MyParallaxScrollView headerBackgroundColor='bg-purple-800' icon='person-sharp'>
+        <View className='px-4 py-8'>
+          <MyTextInput label="Search" placeholder="Search users" onChangeText={setSearch} value={search} isBigLabel={true} />
+          <UserListUpdateDelete users={filteredUsers} />
         
-    </View>
-    </View>
+        </View>
+    </MyParallaxScrollView>
     
     
   );

@@ -13,7 +13,7 @@ export function MyButton({ text, onPress, variant = 'primary', disabled }: MyBut
   const getButtonStyle = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-teal-500 active:bg-blue-700';
+        return 'bg-neutral-700 active:bg-blue-700';
       case 'danger':
         return 'bg-red-500 active:bg-red-700';
       case 'success':

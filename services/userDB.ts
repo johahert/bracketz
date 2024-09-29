@@ -89,6 +89,24 @@ export const getUsersByStatus = async (status: number, tournamentId: number) => 
     }
 }
 
+export const getTournamentParticipants = async (tournamentId: number) => {
+  try {
+     const result:User[] = await db.getAllAsync(
+         `SELECT users.* 
+         FROM users 
+         JOIN tournament_participants 
+         ON users.id = tournament_participants.users_id 
+         WHERE tournament_participants.tournaments_id = ?`, [ tournamentId]);
+     console.log('Users found by status', result);
+     return result || [];
+     
+ } catch (error) {
+     console.log('Error getting users', error);
+     return [];
+ }
+}
+
+
 export const updateUserStatus = async (id: number, status: number, tournamentId:number) => {
     try {
         await db.runAsync('UPDATE tournament_participants SET status = (?) WHERE users_id = (?) AND tournaments_id = (?)', [status, id, tournamentId]);
@@ -109,7 +127,7 @@ export const ResetWinnerStatus = async (tournamentId:number) => {
 }
 
 
-export const getTournamentParticipants = async (tournamentId: number) => {
+/* export const getTournamentParticipants = async (tournamentId: number) => {
     try {
         const result = await db.getAllAsync(
             `SELECT * 
@@ -121,4 +139,4 @@ export const getTournamentParticipants = async (tournamentId: number) => {
         console.log('Error getting users', error);
         return [];
     }
-}
+} */

@@ -118,7 +118,7 @@ const produceTournament = (result: any[]):Tournament |null => {
     return tournament;
 }
 
-export const updateTournamentStatus = async (status: number, id: number) => {
+export const updateTournamentStatus = async (id:number, status: number) => {
     try {
         const query = 
         `UPDATE tournaments

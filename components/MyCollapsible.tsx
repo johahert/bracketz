@@ -49,16 +49,16 @@ export function MyCollapsible({ title, children }: Props) {
   }));
 
   return (
-    <View className="rounded-lg bg-teal-700 mb-4">
+    <View className="rounded-lg bg-neutral-50 mb-4 shadow-black shadow-lg">
       <TouchableOpacity
-        className="flex-row justify-between items-center text-white p-6"
+        className="flex-row justify-between items-center text-white p-4"
         activeOpacity={0.5}
         onPress={handlePress}  // Handle the press event here
       >
-        <Text className="text-white text-lg font-bold">{title}</Text>
+        <Text className="text-neutral-900 text-lg font-bold">{title}</Text>
         <Animated.View style={animatedStyle}>
 
-          <Ionicons name='add' size={32} color="white" />
+          <Ionicons name='add' size={32} color="gray" />
         </Animated.View>
       </TouchableOpacity>
 

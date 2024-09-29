@@ -52,7 +52,7 @@ export default function MyParallaxScrollView({
                     scale: interpolate(
                         scrollOffset.value,
                         [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-                        [2, 1, 0.1]
+                        [2, 1, .5]
                     )
 
                 },
@@ -60,14 +60,14 @@ export default function MyParallaxScrollView({
                     translateX: interpolate(
                         scrollOffset.value,
                         [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-                        [HEADER_HEIGHT / 1.5, 30, -HEADER_HEIGHT * .01]
+                        [HEADER_HEIGHT / 1.5, 30, -HEADER_HEIGHT * .1]
                     )
                 },
                 {
                     translateY: interpolate(
                         scrollOffset.value,
                         [-HEADER_HEIGHT, 0, HEADER_HEIGHT],
-                        [-HEADER_HEIGHT / 25, 5, HEADER_HEIGHT * .01]
+                        [-HEADER_HEIGHT / 25, 5, HEADER_HEIGHT * -1]
                     )
                 }
                 
@@ -80,14 +80,14 @@ export default function MyParallaxScrollView({
     });
 
     return(
-        <View className='flex-1 bg-teal-600' style={{flex: 1}}>
+        <View className='flex-1 bg-neutral-50' style={{flex: 1}}>
 
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16} contentContainerStyle={{
     flexGrow: 1, // Ensures the content of the ScrollView grows as needed
   }}> 
             <Animated.View className={`overflow-hidden justify-end items-start h-36 ${headerBackgroundColor}`} style={headerAnimation}>
                 <Animated.View style={iconAnimation}>
-                {icon && <Ionicons  name={icon} size={48} color='#0d9488' />}
+                {icon && <Ionicons  name={icon} size={48} color='#0d0d0d' />}
                 </Animated.View>
             </Animated.View>
             <View className='flex-1  overflow-hidden' style={{flex: 1}}>

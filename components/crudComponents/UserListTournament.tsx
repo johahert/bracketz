@@ -6,6 +6,7 @@ import { ContentContainer } from '../ContentContainer';
 
 import { deleteUser, getUsers } from '@/services/userDB';
 import { CheckButton } from '../CheckButton';
+import { MyTextInput } from '../MyTextInput';
 
 interface ListProps{
     onUpdateCompetitors : (updatedUsers: User[]) => void;
@@ -15,6 +16,9 @@ interface ListProps{
 
 export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: ListProps) => {
 
+    const [userList, setUserList] = useState<User[]>([]);
+    const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+    const [addedUsers, setAddedUsers] = useState<User[]>([]);
     useEffect(() => {
         handleGetUsers();
     }, [])
@@ -23,12 +27,14 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
         setAddedUsers(selectedCompetitors); // Sync the addedUsers with the selected competitors
     }, [selectedCompetitors]);
 
+    useEffect(() => {
+        setFilteredUsers(userList);
+    }, [userList])
+
     const handleGetUsers = async () => {
         await getUsers().then((users) => setUserList(users || []));
-
+        
     }
-    const [userList, setUserList] = useState<User[]>([]);
-    const [addedUsers, setAddedUsers] = useState<User[]>([]);
 
     //uppdaterar värde i parent
     const handleAddUser = (id: number) => {
@@ -46,21 +52,33 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
         }
         console.log(addedUsers);
     }
-    
-
+    const filterUsers = (text: string) => {
+        text = text.trim();
+        if (text === '') {
+            setFilteredUsers(userList);
+        } else {
+            const filtered = userList.filter((user) => user.name.toLowerCase().includes(text.toLowerCase()));
+            setFilteredUsers(filtered);
+        }
+    }
   return (
     <>
-    {userList.length > 0 && (
+    {userList  && (
         
             <View className='pt-4'>
+            
+            <MyTextInput placeholder='Search users' label='Search'
+            onChangeText={(text) => filterUsers(text)}
+            
+            />
 
-            {userList.map((user, index) => (
-                <ContentContainer key={index} classes='bg-teal-600'>
-                    <View className='flex-row justify-between'>
+            {filteredUsers.map((user, index) => (
+                <ContentContainer key={index} classes={` border-b border-neutral-300 py-4`}>
+                    <View className='flex-row justify-between items-end'>
                     
                         <View className=''>
-                            <Text className='text-white text-lg font-bold'>{user.name}</Text>
-                            <Text className='text-teal-100 text-sm font-bold'>Id: {user.id}</Text>
+                            <Text className='text-neutral-700 text-lg font-bold'>{user.name}</Text>
+                            <Text className='text-neutral-500 text-xs font-bold'>Id: {user.id}</Text>
                         </View>
                         <View className='flex flex-row items-center justify-center'>
                             <CheckButton onPress={() => handleAddUser(user.id)}

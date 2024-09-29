@@ -15,7 +15,7 @@ export function IconButton({ icon, onPress, variant = 'primary', classes}: IconB
   const getButtonStyle = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-teal-500 active:bg-teal-700';
+        return 'bg-neutral-500 active:bg-neutral-700';
       case 'danger':
         return 'bg-red-500 active:bg-red-700';
       case 'success':
@@ -31,7 +31,7 @@ export function IconButton({ icon, onPress, variant = 'primary', classes}: IconB
 
   return (
     <TouchableHighlight 
-      className={`flex items-center justify-center w-8 h-8 rounded-full ${getButtonStyle()} ${classes}`} 
+      className={`flex items-center justify-center w-10 h-10 rounded-full ${getButtonStyle()} ${classes}`} 
       onPress={onPress} 
       underlayColor="transparent"
     >
