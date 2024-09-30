@@ -126,12 +126,10 @@ export const ResetWinnerStatus = async (tournamentId:number) => {
     }
 }
 
-export const updateUserWins = async (id: number) => {
+export const updateUserWins = async (id: number, num: number) => {
     try {
-        const userWins:number | null = await db.getFirstSync('SELECT wins FROM users WHERE id = ?', [id]);
-        if(userWins === null) return;
         
-        await db.runAsync('UPDATE users SET wins = ? WHERE id = ?', [(userWins+1), id]);
+        await db.runAsync('UPDATE users SET wins = ? WHERE id = ?', [num, id]);
     } catch (error) {
         console.log('Error updating user wins', error);
     }

@@ -33,7 +33,7 @@ export const UserListUpdateDelete = ({users, onDeleteUser}: ListProps) => {
                         <View className=''>
                             <Text className='text-neutral-900 dark:text-neutral-100 text-lg font-bold'>{user.name}</Text>
                             <Text className='text-neutral-700 dark:text-neutral-300 text-xs'>User-ID: {user.id}</Text>
-                            <Text className='text-neutral-700 m-0 dark:text-neutral-300 text-xs'>Tournaments Won: {user.wins}</Text>
+                            <Text className='text-neutral-700 m-0 dark:text-neutral-300 text-xs'>Tournaments Won: {user.wins? user.wins : 0}</Text>
                         </View>
                         <View className='flex flex-row items-start justify-end'>
                             <ProfilePicture id={user.profile_picture} />

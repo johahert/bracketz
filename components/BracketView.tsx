@@ -72,7 +72,7 @@ export const BracketView = ({
         `Congratulations! ${lastRound.matches[0].winner?.name} has won the tournament!`
       );
       await changeTournamentStatus(tournamentId, TournamentStatus.COMPLETED);
-      await updateUserWins(lastRound.matches[0].winner?.id!);
+      await updateUserWins(lastRound.matches[0].winner?.id!, lastRound.matches[0].winner?.wins! + 1);
       setTournamentStatus(TournamentStatus.COMPLETED);
       finishTournament();
       fetchUsers();
