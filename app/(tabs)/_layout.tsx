@@ -5,25 +5,29 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { NativeTabBarIcon } from '@/components/navigation/NativeTabBarIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tournament } from '@/models/tournament';
+import { useThemeColor } from '@/hooks/useThemeColor';
 const TabsLayout = () => {
   useSafeAreaInsets();
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const bgColor = useThemeColor({ light: '#fff', dark: '#0a0a0a' }, 'backgroundColor');
+  const fgColor = useThemeColor({ light: '#0a0a0a', dark: '#000' }, 'tint');
 
   return (
     <Tabs safeAreaInsets={
-      {top : 0,  bottom: 5, }
+      {top : 0,  bottom: 0, }
     } 
     
     screenOptions={
       {
         
-        tabBarActiveTintColor: 'white',
-        tabBarInactiveTintColor: '#e5e5e5',
+        tabBarActiveTintColor: fgColor,
+        tabBarInactiveTintColor: fgColor,
         headerShown: false,
         tabBarStyle:{
-          backgroundColor: '#525252',
-          borderTopWidth: 0,
+          backgroundColor: bgColor,
+          borderTopWidth: 1,
+          borderTopColor: '#a3a3a3',
         }
       }
     }>

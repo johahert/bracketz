@@ -42,7 +42,7 @@ export const initializeTournament = async (tournament: Tournament) => {
     }
 
     //Sätter turneringen till aktiv
-    await updateTournamentStatus(TournamentStatus.ACTIVE, tournament.id)
+    await updateTournamentStatus(tournament.id, TournamentStatus.ACTIVE)
     .then(() => console.log('status updated'))
     .catch(() => {
         console.log('status update failed')

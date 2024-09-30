@@ -22,7 +22,7 @@ export const BracketView = ({ tournamentId , tournamentStatusProp, finishTournam
 
     useEffect(() => {
         getBracketData()
-    },[tournamentId])
+    },[tournamentId, tournamentStatusProp])
     
     const getBracketData = async () => {
         await getRoundsMatchesPlayers(tournamentId)
@@ -178,7 +178,7 @@ export const BracketView = ({ tournamentId , tournamentStatusProp, finishTournam
                                     )
                                 })}
                                 <View className='flex-row justify-end py-1'>
-                                    {round.active &&(
+                                    {round.active && tournamentStatus === TournamentStatus.ACTIVE && (
 
                                     <IconButton icon="pencil" onPress={() => handleSetMatchActive(match)} />
                                     )}
