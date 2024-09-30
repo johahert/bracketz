@@ -19,7 +19,9 @@ import { MyButton } from "./MyButton";
 import { IconButton } from "./IconButton";
 import { updateMatchScore } from "@/services/matchDB";
 import { useTournaments } from "./TournamentContextProvider";
+import { useUsers } from "./UserContextProvider";
 import { ProfilePicture } from "@/constants/ProfilePictures";
+import { updateUserWins } from "@/services/userDB";
 
 interface BracketProps {
   tournamentId: number;
@@ -33,6 +35,7 @@ export const BracketView = ({
   finishTournament,
 }: BracketProps) => {
   const { changeTournamentStatus } = useTournaments();
+  const { fetchUsers } = useUsers();
 
   const [rounds, setRounds] = useState<Round[]>([]);
   const [tournamentStatus, setTournamentStatus] =
@@ -64,13 +67,15 @@ export const BracketView = ({
       lastRound.matches.length === 1
     ) {
       console.log("last round");
-      //TODO - hantera vinnare av turneringen
+      
       Alert.alert(
         `Congratulations! ${lastRound.matches[0].winner?.name} has won the tournament!`
       );
       await changeTournamentStatus(tournamentId, TournamentStatus.COMPLETED);
+      await updateUserWins(lastRound.matches[0].winner?.id!);
       setTournamentStatus(TournamentStatus.COMPLETED);
       finishTournament();
+      fetchUsers();
       return;
     }
 
@@ -210,7 +215,7 @@ export const BracketView = ({
                       {match.players &&
                         match.players.map((player) => {
                           return (
-                            <View className="flex-row justify-between">
+                            <View className="flex-row justify-between" key={player.id}>
                                 <ProfilePicture id={player.profile_picture ? player.profile_picture : 1} />
                                 <View
                                 className={`px-4 ml-2 h-16 mb-2 rounded-md items-center flex-row flex-1 justify-between overflow-hidden ${
@@ -218,7 +223,7 @@ export const BracketView = ({
                                     ? "bg-neutral-200 dark:bg-neutral-700  border border-teal-500"
                                     : "border border-transparent bg-neutral-200 dark:bg-neutral-800"
                                 } $`}
-                                key={player.id}
+                                
                                 >
                                     
                                 <Text

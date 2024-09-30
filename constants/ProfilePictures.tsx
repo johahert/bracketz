@@ -12,9 +12,9 @@ const profilepic11 = require('../assets/images/profilepics/profilepic11.png');
 const profilepic12 = require('../assets/images/profilepics/profilepic12.png');
 
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, ImageSourcePropType, View } from "react-native";
 
-export const profilePictures: { [key: number]: string } = {
+export const profilePictures: { [key: number]: ImageSourcePropType } = {
     1: profilepic1,
     2: profilepic2,
     3: profilepic3,
@@ -38,12 +38,12 @@ interface ProfilePictureProps {
     const idUse = id? id : 1
     
     return (
-      <View className="h-16 w-16">
+     
 
       <Image
         source={profilePictures[idUse]}
         style={{ width: size, height: size, borderRadius: size / 8 }}
         />
-      </View>
+      
     );
   };
