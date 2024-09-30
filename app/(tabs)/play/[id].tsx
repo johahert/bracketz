@@ -17,9 +17,11 @@ import MyModal from "@/components/MyModal";
 import { MyButton } from "@/components/MyButton";
 import { MyCollapsible } from "@/components/MyCollapsible";
 import { BracketView } from "@/components/BracketView";
+import { useTournaments } from "@/components/TournamentContextProvider";
 
 export default function TournamentView() {
   const { id } = useLocalSearchParams();
+  const { changeTournamentStatus } = useTournaments();
 
   const [tournament, setTournament] = useState<Tournament | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,12 +43,24 @@ export default function TournamentView() {
     });
   };
   
+  const handleFinishTournament = () => {
+    console.log("i finish tournament")
+    setTournament(prev => {
+      if(!prev) return null;
+      return {
+        ...prev,
+        status: TournamentStatus.COMPLETED
+      }
+    })
+  }
   
 
   const handleStartTournament = async () => {
       if(tournament){
         await initializeTournament(tournament);
         await getTournamentFromDB(parseInt(id as string));
+        if(!tournament.id) return
+        await changeTournamentStatus(tournament.id, TournamentStatus.ACTIVE);
       }
   }
 //TODO - Home screen ska visa alla turneringar, sortera på kommande, avslutade och pågående turneringar
@@ -120,10 +134,10 @@ export default function TournamentView() {
                  
                   {tournament.competitors.map((c, index) => (
                     <View key={index} className={` py-2 ${
-                      (index + 1) === tournament.competitors?.length ? '' : 'border-b border-neutral-300'
+                      (index + 1) === tournament.competitors?.length ? '' : 'border-b border-neutral-200 dark:border-neutral-700'
                     }`}>
-                      <Text className="font-bold text-neutral-950 text-lg">{c.name}</Text>
-                      <Text className="text-neutral-700 text-xs">Player ID : {c.id}</Text>
+                      <Text className="font-bold text-neutral-900 dark:text-neutral-200 text-lg">{c.name}</Text>
+                      <Text className="text-neutral-700 dark:text-neutral-400 text-xs">Player ID : {c.id}</Text>
                     </View>
                   ))}
                 </View>
@@ -136,9 +150,9 @@ export default function TournamentView() {
               
               {/** Bracket view */}
 
-              {tournament && tournament.status == TournamentStatus.ACTIVE && (
+              {tournament && tournament.status !== TournamentStatus.PENDING && (
                 <View>
-                  <BracketView tournamentId={tournament.id} tournamentStatusProp={tournament.status} />
+                  <BracketView tournamentId={tournament.id} tournamentStatusProp={tournament.status} finishTournament={handleFinishTournament} />
 
 
 

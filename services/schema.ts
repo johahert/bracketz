@@ -25,6 +25,8 @@ const users_table =
 `CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        profile_picture INTEGER DEFAULT 0,
+        wins INTEGER DEFAULT 0,
         UNIQUE(name)
       );`;
 

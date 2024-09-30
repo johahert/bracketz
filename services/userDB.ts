@@ -44,9 +44,9 @@ export const getUsers = async () => {
     }
 };
 
-export const insertUser = async (name: string) => {
+export const insertUser = async (name: string, profilePicture: number = 1) => {
     try {
-      await db.runAsync('INSERT INTO users (name) VALUES (?)',[name])
+      await db.runAsync('INSERT INTO users (name, profile_picture) VALUES (?, ?)',[name, profilePicture])
       
     } catch (error) {
       console.log('Error adding user', error);

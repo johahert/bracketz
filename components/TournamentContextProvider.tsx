@@ -39,7 +39,7 @@ export const TournamentsProvider : React.FC<TournamentProviderProps> = ({childre
     const changeTournamentStatus = async (id:number, status:number) => {
         try {
           //status first then id
-          await updateTournamentStatus(status, id);
+          await updateTournamentStatus(id, status);
           await fetchTournaments();
         } catch (error) {
           console.error('Failed to change tournament status:', error);

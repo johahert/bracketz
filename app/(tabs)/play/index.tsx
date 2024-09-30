@@ -40,8 +40,8 @@ export default function UserView() {
 
 
     <MyParallaxScrollView headerBackgroundColor='bg-purple-800' icon='person-sharp'>
-        <View className='px-4 py-8'>
-          <MyTextInput label="Search" placeholder="Search users" onChangeText={setSearch} value={search} isBigLabel={true} />
+        <View className='px-4 py-8 bg-neutral-50 dark: dark:bg-neutral-950'>
+          <MyTextInput  placeholder="Search users" onChangeText={setSearch} value={search} isBigLabel={true} />
           <UserListUpdateDelete users={filteredUsers} />
         
         </View>

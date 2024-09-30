@@ -67,7 +67,7 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
         
             <View className='pt-4'>
             
-            <MyTextInput placeholder='Search users' label='Search'
+            <MyTextInput placeholder='Search users'
             onChangeText={(text) => filterUsers(text)}
             
             />
@@ -77,7 +77,7 @@ export const UserListTournament = ({onUpdateCompetitors, selectedCompetitors}: L
                     <View className='flex-row justify-between items-end'>
                     
                         <View className=''>
-                            <Text className='text-neutral-700 text-lg font-bold'>{user.name}</Text>
+                            <Text className='text-neutral-800 dark:text-neutral-200 text-lg font-bold'>{user.name}</Text>
                             <Text className='text-neutral-500 text-xs font-bold'>Id: {user.id}</Text>
                         </View>
                         <View className='flex flex-row items-center justify-center'>

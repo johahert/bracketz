@@ -31,7 +31,7 @@ export function IconButton({ icon, onPress, variant = 'primary', classes}: IconB
 
   return (
     <TouchableHighlight 
-      className={`flex items-center justify-center w-10 h-10 rounded-full ${getButtonStyle()} ${classes}`} 
+      className={`flex items-center justify-center w-8 h-8 rounded-full ${getButtonStyle()} ${classes}`} 
       onPress={onPress} 
       underlayColor="transparent"
     >

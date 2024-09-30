@@ -28,10 +28,10 @@ export default function RootLayout() {
     }
   }
 
-   /* useEffect(() => {
+  /*  useEffect(() => {
     onMountCreateSchema();
-  }, []);  */
-  
+  }, []); 
+   */
 
   return (
     <TournamentsProvider>

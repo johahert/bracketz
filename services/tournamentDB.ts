@@ -119,6 +119,7 @@ const produceTournament = (result: any[]):Tournament |null => {
 }
 
 export const updateTournamentStatus = async (id:number, status: number) => {
+    if(status < 0 || status > 2) return;
     try {
         const query = 
         `UPDATE tournaments

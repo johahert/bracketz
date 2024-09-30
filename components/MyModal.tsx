@@ -17,22 +17,22 @@ export default function MyModal({ title, isOpen, closeModal, children }: Prop) {
       transparent={true}
       visible={isOpen}
     >
-      <View className="p-4 bg-neutral-100 shadow-black shadow-md my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
+      <View className=" bg-neutral-100 dark:bg-neutral-900 shadow-black shadow-md my-auto mx-4 rounded-md flex-1 max-h-[75vh]">
         {/* Title */}
-        <Text className="text-lg text-neutral-950  font-bold my-4">{title}</Text>
+        <Text className="text-lg text-neutral-950 dark:text-neutral-50 p-4 font-bold mt-4">{title}</Text>
 
         {/* ScrollView to take remaining space */}
         <View style={{ flex: 1 }}>
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
-            className="overflow-hidden"
+            className="overflow-hidden p-4"
           >
             {children}
           </ScrollView>
         </View>
 
         {/* Close button at the bottom */}
-        <View className="mt-4">
+        <View className="p-4">
           <MyButton
             text="Close Modal"
             onPress={closeModal}

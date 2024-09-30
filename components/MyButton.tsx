@@ -13,7 +13,7 @@ export function MyButton({ text, onPress, variant = 'primary', disabled }: MyBut
   const getButtonStyle = () => {
     switch (variant) {
       case 'primary':
-        return 'bg-neutral-700 active:bg-blue-700';
+        return 'bg-neutral-800 dark:bg-neutral-200 active:bg-blue-700';
       case 'danger':
         return 'bg-red-500 active:bg-red-700';
       case 'success':
@@ -30,7 +30,7 @@ export function MyButton({ text, onPress, variant = 'primary', disabled }: MyBut
       case 'success':
         return 'text-white';
       default:
-        return 'text-white';
+        return 'text-white dark:text-neutral-900'; // Default to white text
     }
   };
 

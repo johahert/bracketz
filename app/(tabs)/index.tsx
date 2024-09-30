@@ -61,6 +61,7 @@ export default function Index() {
 
             <MyTextInput
             placeholder="search tournament"
+            
             label="Find Tournament"
             isBigLabel={true}
             value={searchText}
@@ -71,14 +72,14 @@ export default function Index() {
                 <TouchableHighlight 
                 key={index}
                 className={
-                  `flex items-center justify-center rounded-md border-2  ${status.checked ? 'border-teal-500' : ' border-neutral-700'} `
+                  `flex items-center justify-center rounded-md border-2  ${status.checked ? 'border-teal-500' : ' border-neutral-700 dark:border-neutral-500'} `
                 }
                 onPress={() => handleFilter(status.status)}
                 underlayColor="transparent"
               >
                 <View className='flex-row items-center p-1'>
           
-                  <Text className={status.checked ? 'text-teal-500 ' : 'text-neutral-700 '  }>{status.name}</Text>
+                  <Text className={status.checked ? 'text-teal-500' : 'text-neutral-700 dark:text-neutral-500'  }>{status.name}</Text>
                   <Ionicons size={16} color={status.checked ? '#14b8a6' : '#404040'} name={status.checked ? 'checkmark' : 'add'} />
                 </View>
               </TouchableHighlight>

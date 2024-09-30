@@ -26,6 +26,7 @@ export const UsersProvider : React.FC<UserProviderProps> = ({children}: UserProv
     const fetchUsers = async () => {
         try {
           const fetchedUsers = await getUsers();
+          console.log('fetched users i contextprovider:  ', fetchedUsers);
           setUsers(fetchedUsers);
         } catch (error) {
           console.error('Failed to fetch users:', error);

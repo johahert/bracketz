@@ -13,12 +13,15 @@ export const enum TournamentFormat{
 
 export interface User {
     id: number;
+    wins?: number;
+    profile_picture?: number; 
     name: string;
 }
 
 export interface Player{
     id: any;
     name: any;
+    profile_picture?: number;
     score: number;
 }
 

@@ -114,9 +114,9 @@ export const generateRounds =  async (tournamentId: number, roundNumber: number)
         //rest of players gets sent to round 1
         for (let i = byes; i < users.length; i += 2) {
                 if (i + 1 < users.length) {
-                    const p1: Player = { name: users[i].name, id:users[i].id, score: 0};
-                    const p2: Player = { name: users[i+1].name, id:users[i+1].id, score: 0};
-                    const newMatch:Match = {
+                    const p1: Player = { name: users[i].name, id: users[i].id, score: 0, profile_picture: users[i].profile_picture ? users[i].profile_picture : Math.floor(Math.random() * 12) + 1 };
+                    const p2: Player = { name: users[i + 1].name, id: users[i + 1].id, score: 0, profile_picture: users[i + 1].profile_picture ? users[i + 1].profile_picture : Math.floor(Math.random() * 12) + 1 };
+                    const newMatch: Match = {
                         players: [p1, p2],
                         active: false
                     }
