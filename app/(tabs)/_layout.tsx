@@ -6,12 +6,13 @@ import { NativeTabBarIcon } from '@/components/navigation/NativeTabBarIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Tournament } from '@/models/tournament';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { NeutralColors } from '@/constants/Colors';
 const TabsLayout = () => {
-  useSafeAreaInsets();
+  //useSafeAreaInsets();
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
-  const bgColor = useThemeColor({ light: '#fff', dark: '#0a0a0a' }, 'backgroundColor');
-  const fgColor = useThemeColor({ light: '#0a0a0a', dark: '#fafafa' }, 'tint');
+  const bgColor = useThemeColor({ light: NeutralColors[50], dark: NeutralColors[950] }, 'backgroundColor');
+  const fgColor = useThemeColor({ light: NeutralColors[950], dark: NeutralColors[50] }, 'tint');
   const fgColorFaded = useThemeColor({ light: '#262626', dark: '#e5e5e5' }, 'faded');
 
   return (
@@ -46,15 +47,15 @@ const TabsLayout = () => {
         ),
         
         }} />
-      <Tabs.Screen name="play/index" options={{title : "Play",
+      <Tabs.Screen name="play" options={{title : "Play",
         tabBarIcon:({color, focused}) => (
           <NativeTabBarIcon name={focused? 'play' : 'play-outline'} color={color}  />
         ),
         
         }} />
-      <Tabs.Screen name="play/[id]" options={{title : "Play", href: null,
+      <Tabs.Screen name="users" options={{title : "Users", 
         tabBarIcon:({color, focused}) => (
-          <NativeTabBarIcon name={focused? 'add' : 'add-outline'} color={color}  />
+          <NativeTabBarIcon name={focused? 'person' : 'person-outline'} color={color}  />
         ),
         
         }} />

@@ -37,7 +37,7 @@ export default function RootLayout() {
     <TournamentsProvider>
       <UsersProvider>
 
-      <SafeAreaView className="bg-white dark:bg-neutral-950 h-full">
+      <SafeAreaView className="bg-neutral-50 dark:bg-neutral-950 h-full">
 
       <Stack>
         <Stack.Screen name="(tabs)" options={{headerShown: false}} />
