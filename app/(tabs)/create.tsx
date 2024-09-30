@@ -16,6 +16,8 @@ import { CreateTournamentForm } from '@/components/crudComponents/CreateTourname
 import { UserListUpdateDelete } from '@/components/crudComponents/UserListUpdateDelete'
 import { TournamentListView } from '@/components/crudComponents/TournamentListView'
 import { useThemeColor } from '@/hooks/useThemeColor'
+import { ParallaxBgClass } from '@/constants/Colors'
+import { Image } from 'expo-image'
 //TODO - Bryt ut userlist till egen komponent (Göra att samma fungerar med tournaments också?)
 
 const CreateTorunament = () => {
@@ -44,10 +46,12 @@ const CreateTorunament = () => {
     }
 
   return (
-    <MyParallaxScrollView headerBackgroundColor='bg-violet-800' icon='create-sharp'>
-        <View className='px-4 bg-neutral-50 dark:bg-neutral-950'>
+    <MyParallaxScrollView headerBackgroundColor={ParallaxBgClass} icon='create-sharp'>
+        <View className='px-4 py-8 bg-neutral-50 dark:bg-neutral-950 relative'>
 
-        <Text className='font-black text-4xl text-neutral-950 dark:text-white  py-6 uppercase'>Create</Text>
+        <Image source={require('../../assets/images/pencilbro.svg')} className='w-full absolute top-48 opacity-5 aspect-square mx-auto' />
+
+        
 
         {/*Fixa så handlegetusers uppdaterar gränssnittet korrekt / kallar metoden*/ }
         <MyCollapsible title='Create new user'>

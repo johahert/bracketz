@@ -231,7 +231,7 @@ export const BracketView = ({
                                     player.id === match.winner?.id
                                         ? "font-bold"
                                         : ""
-                                    }`}
+                                    }${player.name.length > 10 ? " text-xs" : ""}`}
                                 >
                                     {player.name}
                                 </Text>

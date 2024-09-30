@@ -81,14 +81,16 @@ export default function MyParallaxScrollView({
     });
 
     return(
-        <View className='flex-1 bg-neutral-50 dark:bg-neutral-950' style={{flex: 1}}>
-
+        <View className='flex-1 bg-neutral-50 dark:bg-neutral-950 ' >
+        <View className={`h-16 absolute w-full ${headerBackgroundColor}`} />
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={0} contentContainerStyle={{
     flexGrow: 1, // Ensures the content of the ScrollView grows as needed
   }}> 
-            <Animated.View className={`overflow-hidden justify-end items-start h-32 ${headerBackgroundColor}`} style={headerAnimation}>
-                <Image source={require('../assets/images/bottomwavelight.svg')} contentFit='cover' style={{flex: 1, left: 0, right: 0, bottom: 0, top: 0, position: 'absolute' }} />
-                <Image source={require('../assets/images/topwavelight.svg')} contentFit='cover' style={{flex: 1, left: 0, right: 0, bottom: 0, top: 0, position: 'absolute' }} />
+            <Animated.View className={`overflow-hidden justify-end items-center h-16 ${headerBackgroundColor}`} style={headerAnimation}>
+                
+                <Image source={require('../assets/images/bottomwavelightdos.svg')} style={{position:'absolute', bottom: 0, left:0, right:0, top:0}} />
+                <Animated.Text className='text-6xl uppercase mt-4 text-center font-black text-red-200 dark:text-neutral-100'>Create</Animated.Text>
+                
                 {/* <Animated.View style={iconAnimation}>
                 {icon && <Ionicons  name={icon} size={48} color='#0d0d0d' />}
                 </Animated.View> */}

@@ -19,7 +19,7 @@ export const NeutralColors = {
   900: '#171717',
   950: '#0a0a0a',
 };
-
+export const ParallaxBgClass:string = 'bg-red-300 dark:bg-blue-300';
 
 export const Colors = {
   light: {

@@ -7,6 +7,7 @@ import { Tournament } from "@/models/tournament";
 import { MyTextInput } from "@/components/MyTextInput";
 import { Ionicons } from "@expo/vector-icons";
 import { useTournaments } from "@/components/TournamentContextProvider";
+import { ParallaxBgClass } from "@/constants/Colors";
 
 
 export default function Index() {
@@ -51,7 +52,7 @@ export default function Index() {
   return (
 
 
-    <MyParallaxScrollView headerBackgroundColor='bg-violet-800 dark:bg-violet-500 z-10' icon='home-sharp'>
+    <MyParallaxScrollView headerBackgroundColor={`${ParallaxBgClass}`} icon='home-sharp'>
         <View className='px-4 py-4 '>
 
 

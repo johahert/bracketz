@@ -7,6 +7,7 @@ import { Alert } from "react-native";
 import { createSchema, dropSchema } from "@/services/schema";
 import { TournamentsProvider } from "@/components/TournamentContextProvider";
 import { UsersProvider } from "@/components/UserContextProvider";
+import { ParallaxBgClass } from "@/constants/Colors";
 NativeWindStyleSheet.setOutput({
   default: "native",
 });
@@ -36,8 +37,8 @@ export default function RootLayout() {
   return (
     <TournamentsProvider>
       <UsersProvider>
-
-      <SafeAreaView className="bg-neutral-50 dark:bg-neutral-950 h-full">
+      <SafeAreaView edges={["top"]} className={`flex-0 ${ParallaxBgClass}`} />
+      <SafeAreaView edges={["bottom","left","right"]} className="bg-neutral-50 dark:bg-neutral-950 flex-1">
 
       <Stack>
         <Stack.Screen name="(tabs)" options={{headerShown: false}} />
