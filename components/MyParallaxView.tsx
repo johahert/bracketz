@@ -80,7 +80,7 @@ export default function MyParallaxScrollView({
     });
 
     return(
-        <View className='flex-1 bg-neutral-50 dark:bg-neutral-800' style={{flex: 1}}>
+        <View className='flex-1 bg-neutral-50 dark:bg-neutral-950' style={{flex: 1}}>
 
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16} contentContainerStyle={{
     flexGrow: 1, // Ensures the content of the ScrollView grows as needed

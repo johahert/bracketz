@@ -140,24 +140,24 @@ export const BracketView = ({ tournamentId , tournamentStatusProp, finishTournam
         {rounds && rounds.map((round, index) => {
             return (
                 <View key={round.id} className=''>
-                    <Text className='text-neutral-900 font-bold  text-2xl'>{getRoundName(round)}</Text>
+                    <Text className='text-neutral-900 dark:text-neutral-100 font-bold mb-4 mt-8 text-center text-2xl'>{getRoundName(round)}</Text>
                     {round.matches && round.matches.map((match, index) => {
                         return (
-                            <View className={`py-8 ${
-                                (round.matches && round.matches.length-1 === index) ? '' : 'border-b border-neutral-300'
+                            <View className={`mb-4 p-4 pb-8 bg-white dark:bg-neutral-950 rounded-md dark:rounded-none shadow-black shadow-md dark:shadow-none ${
+                                (round.matches && round.matches.length-1 === index) ? '' : 'dark:border-b dark:border-neutral-800'
                             }`} key={match.id}>
                                 <View className='flex-row justify-between pb-4'>
-                                    <Text className='text-neutral-700 text-lg font-semibold'>{getRoundName(round)} Game {index+1}</Text>
+                                    <Text className='text-neutral-700 dark:text-neutral-200 text-lg font-semibold'>{getRoundName(round)} Game {index+1}</Text>
                                     <Text className='text-neutral-700 text-lg font-semibold'>{match.active ? "Editing..." : ""}</Text>
                                 </View>
                                 {match.players && match.players.map((player) => {
                                     return (
                                         <View className={`bg-neutral-200 p-4 mb-2 rounded-md items-center flex-row justify-between ${
-                                            player.id === match.winner?.id ? 'bg-neutral-200  border-2 border-green-500' : 'bg-neutral-200'
+                                            player.id === match.winner?.id ? 'bg-neutral-200 dark:bg-neutral-800  border-2 border-teal-600' : 'bg-neutral-200 dark:bg-neutral-900'
                                         } $`} key={player.id}>
                                             
                                             
-                                            <Text className={` text-neutral-700 ${player.id === match.winner?.id ? 'font-bold' : ''}`}>{player.name}</Text>
+                                            <Text className={` text-neutral-700 dark:text-neutral-300 ${player.id === match.winner?.id ? 'font-bold' : ''}`}>{player.name}</Text>
                                            
                                             <View className='flex-row items-center gap-4'>
 
@@ -169,7 +169,7 @@ export const BracketView = ({ tournamentId , tournamentStatusProp, finishTournam
                                                 </View>
                                                 
                                             ) }
-                                            <Text className={`font-semibold text-neutral-700  ${player.id === match.winner?.id ? 'font-black' : ''}`}>{player.score}</Text>
+                                            <Text className={`font-semibold text-neutral-700 dark:text-neutral-200  ${player.id === match.winner?.id ? 'font-black' : ''}`}>{player.score}</Text>
                                             
                                             </View>
                                             

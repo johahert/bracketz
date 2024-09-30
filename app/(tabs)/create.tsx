@@ -15,13 +15,13 @@ import { CreateUserForm } from '@/components/crudComponents/CreateUserForm'
 import { CreateTournamentForm } from '@/components/crudComponents/CreateTournamentForm'
 import { UserListUpdateDelete } from '@/components/crudComponents/UserListUpdateDelete'
 import { TournamentListView } from '@/components/crudComponents/TournamentListView'
-
+import { useThemeColor } from '@/hooks/useThemeColor'
 //TODO - Bryt ut userlist till egen komponent (Göra att samma fungerar med tournaments också?)
 
 const CreateTorunament = () => {
     
     //#region users handling
-
+    const backgroundColor = useThemeColor({ light: '#fff', dark: '#0d0d0d' }, 'background');
     
     const handleGetUsers = async () => {
         console.log('i handle get users!!!')
@@ -45,7 +45,7 @@ const CreateTorunament = () => {
 
   return (
     <MyParallaxScrollView headerBackgroundColor='bg-violet-800' icon='create-sharp'>
-        <View className='px-4 bg-neutral-50 dark:bg-neutral-800'>
+        <View className='px-4 bg-neutral-50 dark:bg-neutral-950'>
 
         <Text className='font-black text-4xl text-neutral-950 dark:text-white  py-6 uppercase'>Create</Text>
 

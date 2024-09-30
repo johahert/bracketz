@@ -5,8 +5,8 @@ import { getTournaments } from '@/services/tournamentDB';
 import { Link } from 'expo-router';
 import { ContentContainer } from '../ContentContainer';
 import { Ionicons } from '@expo/vector-icons';
-
-
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { NeutralColors } from '@/constants/Colors';
 interface ListProps {
     tournamentList: Tournament[];
 }
@@ -15,7 +15,7 @@ interface statusColors{
     bg: string;
 }
 export const TournamentListView = ({tournamentList}: ListProps) => {
-
+    const iconColor = useThemeColor({ light: NeutralColors[50], dark: NeutralColors[900] }, 'text');
     const getStatusColors = (status: TournamentStatus):statusColors => {
         switch (status) {
             case TournamentStatus.PENDING:
@@ -37,16 +37,16 @@ export const TournamentListView = ({tournamentList}: ListProps) => {
 
             {tournamentList.map((t, index) => (
                 <ContentContainer key={index} classes={`pt-4 pb-4 ${
-                    (index + 1) === tournamentList.length ? '' : 'border-b border-neutral-300'
+                    (index + 1) === tournamentList.length ? '' : 'border-b border-neutral-300 dark:border-neutral-700'
                 } `}>
                     <View className='flex-row justify-between'>
                     
                         <View>
                             <View className=' pb-1 mb-1'>
-                            <Text className='text-neutral-900 text-lg font-bold'>{t.name}</Text>
+                            <Text className='text-neutral-900 dark:text-neutral-100 text-lg font-bold'>{t.name}</Text>
 
                             </View>
-                            <Text className='text-neutral-700 text-sm font-bold'>Format : {t.format === 0 ? 'Knockout' : 'Qualifiers'}</Text>
+                            <Text className='text-neutral-700 dark:text-neutral-300 text-sm font-bold'>Format : {t.format === 0 ? 'Knockout' : 'Qualifiers'}</Text>
 
 
                             <Text className={`text-neutral-700 text-xs font-bold ${getStatusColors(t.status).text}`}>{getTournamentStatus(t.status as TournamentStatus)}</Text>
@@ -56,10 +56,10 @@ export const TournamentListView = ({tournamentList}: ListProps) => {
                         <View className='justify-end'>
 
                         <Link href={`/(tabs)/play/${t.id}`}>
-                        <View className='flex-row items-center px-4 py-2 bg-neutral-600 rounded-md'>
+                        <View className='flex-row items-center px-4 py-2 bg-neutral-700 dark:bg-neutral-200 rounded-md'>
 
-                            <Text className='text-white pr-1'>View</Text>
-                            <Ionicons name='eye' size={20} color={'#fff'} />
+                            <Text className='text-neutral-100 dark:text-neutral-800 pr-1'>View</Text>
+                            <Ionicons name='eye' size={20} color={iconColor} />
                         </View>
                         </Link>
                         </View>

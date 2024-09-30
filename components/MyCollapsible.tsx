@@ -39,7 +39,7 @@ export function MyCollapsible({ title, children }: Props) {
       // Expand
       
       svRotation.value = withTiming(-(1/8)*3);
-      animatedHeight.value = withSpring(height, { damping: 20, stiffness: 50 });
+      animatedHeight.value = withTiming(height);
     }
   };
 
@@ -49,13 +49,13 @@ export function MyCollapsible({ title, children }: Props) {
   }));
 
   return (
-    <View className="rounded-lg bg-neutral-50 mb-4 shadow-black shadow-lg">
+    <View className="rounded-lg bg-neutral-50 mb-4 shadow-black shadow-lg dark:bg-neutral-900 dark:shadow-none ">
       <TouchableOpacity
         className="flex-row justify-between items-center text-white p-4"
         activeOpacity={0.5}
         onPress={handlePress}  // Handle the press event here
       >
-        <Text className="text-neutral-900 text-lg font-bold">{title}</Text>
+        <Text className="text-neutral-900 dark:text-neutral-100  text-lg font-bold">{title}</Text>
         <Animated.View style={animatedStyle}>
 
           <Ionicons name='add' size={32} color="gray" />

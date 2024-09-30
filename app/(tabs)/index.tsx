@@ -51,7 +51,7 @@ export default function Index() {
   return (
 
 
-    <MyParallaxScrollView headerBackgroundColor='bg-neutral-800 z-10' icon='home-sharp'>
+    <MyParallaxScrollView headerBackgroundColor='bg-violet-800 dark:bg-violet-500 z-10' icon='home-sharp'>
         <View className='px-4 py-4 '>
 
 

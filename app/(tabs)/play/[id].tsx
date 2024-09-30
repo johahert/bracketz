@@ -58,24 +58,24 @@ export default function TournamentView() {
 //sista view - ska visa stats för användaren, antal vinster, antal turneringar spelade, antal matcher spelade, antal matcher vunna
 //sökfunktion för att hitta användare, lista på användare, klicka på användare för att se stats
   return (
-    <ScrollView className="py-8 px-4 bg-neutral-50">
+    <ScrollView className="py-8 px-4 bg-neutral-50 dark:bg-neutral-950">
       {tournament ? (
         <View>
           <View className="flex-row justify-between">
-            <Text className="text-2xl font-bold text-neutral-900">
+            <Text className="text-2xl font-bold text-neutral-900 dark:text-neutral-100">
               {tournament.name}
             </Text>
             <View className={`py-1 px-2 rounded-lg items-center justify-center
-              ${tournament.status === TournamentStatus.PENDING ? 'bg-yellow-500' : 'bg-green-500'}`}>
+              ${tournament.status === TournamentStatus.PENDING ? 'bg-yellow-500' : 'bg-teal-700'}`}>
               <Text className={tournament.status === 0 ? " " : "text-white"}>
                 {getTournamentStatus(tournament.status as TournamentStatus)}
               </Text>
             </View>
           </View>
-          <Text className="text-neutral-800 text-xs mb-2">
+          <Text className="text-neutral-800 dark:text-neutral-200 text-xs mb-2">
             Tournament-ID: {tournament.id}
           </Text>
-          <Text className="text-neutral-700 text-lg mb-2">
+          <Text className="text-neutral-700 dark:text-neutral-300 text-lg mb-2">
             Type: {getTournamentFormat(tournament.format)}
           </Text>
             {tournament.status === TournamentStatus.PENDING && (

@@ -11,7 +11,8 @@ const TabsLayout = () => {
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
   const bgColor = useThemeColor({ light: '#fff', dark: '#0a0a0a' }, 'backgroundColor');
-  const fgColor = useThemeColor({ light: '#0a0a0a', dark: '#000' }, 'tint');
+  const fgColor = useThemeColor({ light: '#0a0a0a', dark: '#fafafa' }, 'tint');
+  const fgColorFaded = useThemeColor({ light: '#262626', dark: '#e5e5e5' }, 'faded');
 
   return (
     <Tabs safeAreaInsets={
@@ -22,7 +23,7 @@ const TabsLayout = () => {
       {
         
         tabBarActiveTintColor: fgColor,
-        tabBarInactiveTintColor: fgColor,
+        tabBarInactiveTintColor: fgColorFaded,
         headerShown: false,
         tabBarStyle:{
           backgroundColor: bgColor,
