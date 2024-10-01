@@ -29,6 +29,8 @@ export function MyTextInput({placeholder, label, value, isNumeric, onChangeText,
       className="border-b-2 text-lg border-neutral-500  w-full py-2 text-neutral-700 dark:text-neutral-200"
         placeholder={placeholder}
         placeholderTextColor={color}
+        autoComplete="off"
+        autoCorrect={false}
         selectionColor={color}
         value={value}
         onChangeText={onChangeText}

@@ -2,7 +2,8 @@ import { Dimensions, Text, View, TouchableOpacity, LayoutChangeEvent } from 'rea
 import React, { PropsWithChildren, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
-
+import { useThemeColor } from '@/hooks/useThemeColor';
+import { NeutralColors } from '@/constants/Colors';
 type Props = PropsWithChildren<{
   title: string;
 }>;
@@ -11,6 +12,8 @@ export function MyCollapsible({ title, children }: Props) {
   const [height, setHeight] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const animatedHeight = useSharedValue(0);
+
+  const color = useThemeColor( { light : NeutralColors[800], dark : NeutralColors[200] }, 'text');
 
   const onLayout = (event: LayoutChangeEvent) => {
     const onLayoutHeight = event.nativeEvent.layout.height;
@@ -33,11 +36,9 @@ export function MyCollapsible({ title, children }: Props) {
     if (expanded) {
       // Collapse
       animatedHeight.value = withTiming(0);
-      svRotation.value = withTiming(0);
-      
+      svRotation.value = withTiming(0);  
     } else {
-      // Expand
-      
+      // Expand 
       svRotation.value = withTiming(-(1/8)*3);
       animatedHeight.value = withTiming(height);
     }
@@ -58,7 +59,7 @@ export function MyCollapsible({ title, children }: Props) {
         <Text className="text-neutral-900 dark:text-neutral-100  text-lg font-bold">{title}</Text>
         <Animated.View style={animatedStyle}>
 
-          <Ionicons name='add' size={32} color="gray" />
+          <Ionicons name='add' size={32} color={color} />
         </Animated.View>
       </TouchableOpacity>
 

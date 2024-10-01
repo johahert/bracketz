@@ -10,6 +10,9 @@ const profilepic9 = require('../assets/images/profilepics/profilepic9.png');
 const profilepic10 = require('../assets/images/profilepics/profilepic10.png');
 const profilepic11 = require('../assets/images/profilepics/profilepic11.png');
 const profilepic12 = require('../assets/images/profilepics/profilepic12.png');
+const crown = require('../assets/images/crown.png');
+const oldman = require('../assets/images/oldman.png');
+const baby = require('../assets/images/baby.png');
 
 import React from "react";
 import { Image, ImageSourcePropType, View } from "react-native";
@@ -27,6 +30,12 @@ export const profilePictures: { [key: number]: ImageSourcePropType } = {
     10:profilepic10,
     11:profilepic11,
     12:profilepic12,
+};
+
+export const extraPictures: { [key: number]: ImageSourcePropType } = {
+  1: crown,
+  2: baby,
+  3: oldman,
 };
 
 interface ProfilePictureProps {

@@ -52,19 +52,12 @@ export default function Index() {
   return (
 
 
-    <MyParallaxScrollView headerBackgroundColor={`${ParallaxBgClass}`} icon='home-sharp'>
-        <View className='px-4 py-4 '>
-
-
-        {/*Fixa så handlegetusers uppdaterar gränssnittet korrekt / kallar metoden*/ }
-        
+    <MyParallaxScrollView headerBackgroundColor={`bg-neutral-50 dark:bg-neutral-950`} icon='home-sharp' title="play">
+        <View className='px-4 py-4 bg-neutral-50 dark:bg-neutral-950'>
           <View className="mb-4">
 
             <MyTextInput
             placeholder="search tournament"
-            
-            label="Find Tournament"
-            isBigLabel={true}
             value={searchText}
             onChangeText={setSearchText} >
             </MyTextInput>

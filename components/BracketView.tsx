@@ -1,16 +1,11 @@
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   Match,
-  Player,
   Round,
   TournamentStatus,
-  User,
 } from "@/models/tournament";
 import {
-  getByeParticipants,
-  getRounds,
-  getMatches,
   getRoundsMatchesPlayers,
   generateRounds,
 } from "@/services/roundsDB";

@@ -12,13 +12,14 @@ import Animated, {
 type Props = PropsWithChildren <{
     icon?: keyof typeof Ionicons.glyphMap;
     headerBackgroundColor: string;
+    title: string;
 }>;
 
 
 const HEADER_HEIGHT = 250;
 
 export default function MyParallaxScrollView({
-    children,  headerBackgroundColor, icon
+    children,  headerBackgroundColor, icon, title
 }: Props){
 
     const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -88,8 +89,7 @@ export default function MyParallaxScrollView({
   }}> 
             <Animated.View className={`overflow-hidden justify-end items-center h-16 ${headerBackgroundColor}`} style={headerAnimation}>
                 
-                <Image source={require('../assets/images/bottomwavelightdos.svg')} style={{position:'absolute', bottom: 0, left:0, right:0, top:0}} />
-                <Animated.Text className='text-6xl uppercase mt-4 text-center font-black text-red-200 dark:text-neutral-100'>Create</Animated.Text>
+                <Animated.Text className='text-4xl uppercase text-center font-black text-neutral-300 dark:text-neutral-500'>{title}</Animated.Text>
                 
                 {/* <Animated.View style={iconAnimation}>
                 {icon && <Ionicons  name={icon} size={48} color='#0d0d0d' />}

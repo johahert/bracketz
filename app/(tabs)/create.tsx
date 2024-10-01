@@ -46,7 +46,7 @@ const CreateTorunament = () => {
     }
 
   return (
-    <MyParallaxScrollView headerBackgroundColor={ParallaxBgClass} icon='create-sharp'>
+    <MyParallaxScrollView headerBackgroundColor={`bg-neutral-50 dark:bg-neutral-950`} icon='create-sharp' title='create'>
         <View className='px-4 py-8 bg-neutral-50 dark:bg-neutral-950 relative'>
 
         <Image source={require('../../assets/images/pencilbro.svg')} className='w-full absolute top-48 opacity-5 aspect-square mx-auto' />

@@ -37,13 +37,11 @@ export default function RootLayout() {
   return (
     <TournamentsProvider>
       <UsersProvider>
-      <SafeAreaView edges={["top"]} className={`flex-0 ${ParallaxBgClass}`} />
-      <SafeAreaView edges={["bottom","left","right"]} className="bg-neutral-50 dark:bg-neutral-950 flex-1">
-
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{headerShown: false}} />
-      </Stack>
-      </SafeAreaView>
+        <SafeAreaView className="bg-neutral-50 dark:bg-neutral-950 flex-1">
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{headerShown: false}} />
+          </Stack>
+        </SafeAreaView>
       </UsersProvider>
     </TournamentsProvider>
   );
