@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions, View } from "react-native";
 import { CarouselPage } from "./CarouselPage";
 import Animated, { useAnimatedScrollHandler, useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
 import { User } from "@/models/tournament";
-const Backgroundscolors = ['#FF0000', '#00FF00', '#0000FF',];
-const {width} = Dimensions.get('window');
+import { PageIndicator } from "./IndicatorMenu";
+//import { NeutralColors } from "@/constants/Colors";
+//const Backgroundscolors = [NeutralColors[950], NeutralColors[500], NeutralColors[300],];
+const { width } = Dimensions.get('window');
 
 export interface CarouselData{
     user: User;
@@ -22,18 +24,16 @@ export const CarouselScreen: React.FunctionComponent<CarouselScreenProps> = ({
 
     const animatedX = useSharedValue(0);
     const activeIndex = useDerivedValue(() => Math.round(animatedX.value / width));
-   /*  const activeBackground = useAnimatedStyle(() => ({
+     /* const activeBackground = useAnimatedStyle(() => ({
         backgroundColor: withTiming( Backgroundscolors[activeIndex.value])
-    })); */
+    }));  */
 
     const scrollHandler = useAnimatedScrollHandler(e => {
         animatedX.value = e.contentOffset.x;
     })
     
-
-
     return (
-        <Wrapper  >
+        <Wrapper >
         <Carousel
             horizontal
             pagingEnabled
@@ -43,14 +43,15 @@ export const CarouselScreen: React.FunctionComponent<CarouselScreenProps> = ({
             >
             {carouselData.map((item, index) => (
                 <CarouselPage 
-                carouselData={item}
-                key={index}
-                index={index}
-                activeIndex={activeIndex}
-                animatedX={animatedX}
+                    carouselData={item}
+                    key={index}
+                    index={index}
+                    activeIndex={activeIndex}
+                    animatedX={animatedX}
                 />
             ))}
         </Carousel>
+        <PageIndicator width={width} activeIndex={activeIndex}  />
     </Wrapper>
     )
 
@@ -62,5 +63,6 @@ const Wrapper = styled(Animated.View)(() => ({
 
 const Carousel = styled(Animated.ScrollView)(() => ({
     flex: 1,
-    marginBottom: 20,
+    
 }));
+
