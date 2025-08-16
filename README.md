@@ -1,3 +1,17 @@
-# Turneringsapp
-Denna app är byggd med React Native (Expo), Tailwind (NativeWind), SQLite för backend.
-Strukturen här är ganska rörig då jag inte orkat flytta om och refaktorera ännu. Detta projekt har varit i lärningssyfte (typescript och sammanhänganda SQL-queries) och kanske inte är den "cleanaste" arkitekturen osv.
+# Mobile Tournament Tracker App
+
+## Description
+Created for improving my skills at things like Typescript and database modelling.
+
+Features of this app:
+- Create users and tournaments
+- Filter tournaments by their status
+- Generate rounds for the tournaments depending on amount of players
+- Track tournament wins by users
+- Play out a tournament: add scores for players and let winners proceed to next round
+
+## Teck Stack
+- React Native (Expo)
+- Typescript
+- SQLite
+- React Native Reanimated (animation library)
